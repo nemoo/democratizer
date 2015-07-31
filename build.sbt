@@ -1,4 +1,4 @@
-name := """play-slick-example"""
+name := """democratizer"""
 
 version := "1.0-SNAPSHOT"
 
@@ -20,3 +20,8 @@ libraryDependencies ++= Seq(
   )
 
 resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+
+
+fork in run := true
+
+fork in run := true
