@@ -6,7 +6,7 @@ import java.sql.Date
 case class Baseline(id: Int, name: String, year: Date, description: String)
 
 class BaselineTable(tag: Tag) extends Table[Baseline](tag, "BASELINE") {
-  def * = (id, name, year, description) <> (Baseline.tupled, Baseline.unapply) //TWHAAAAT????
+  def * = (id, name, year, description) <> (Baseline.tupled, Baseline.unapply)
   def ? = (id.?, name.?, year.?, description.?).shaped.<>({ r => import r._; _1.map(_ => Baseline.tupled((_1.get, _2.get, _3.get, _4.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
 
   val id: Column[Int] = column[Int]("ID", O.AutoInc, O.PrimaryKey)
@@ -17,7 +17,7 @@ class BaselineTable(tag: Tag) extends Table[Baseline](tag, "BASELINE") {
 
 object Baselines extends DAO {
 
-  def findById(id: Int)(implicit s: Session): Option[Baseline] =
+  def findById(id: Int)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.id === id).firstOption
 
   def findByName(name: String)(implicit session: Session): Option[Baseline] =
