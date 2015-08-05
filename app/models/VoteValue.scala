@@ -2,14 +2,14 @@ package models
 
 import play.api.db.slick.Config.driver.simple._
 
-case class VoteValue(id: Int, baseline: Int, vote: Int, delta: Int)
+case class VoteValue(id: Int, basevalue: Int, vote: Int, delta: Int)
 
 class VoteValueTable(tag: Tag) extends Table[VoteValue](tag, "VOTEVALUE") {
-  def * = (id, baseline, vote, delta) <> (VoteValue.tupled, VoteValue.unapply)
-  def ? = (id.?, baseline.?, vote.?, delta.?).shaped.<>({ r => import r._; _1.map(_ => VoteValue.tupled((_1.get, _2.get, _3.get, _4.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
+  def * = (id, basevalue, vote, delta) <> (VoteValue.tupled, VoteValue.unapply)
+  def ? = (id.?, basevalue.?, vote.?, delta.?).shaped.<>({ r => import r._; _1.map(_ => VoteValue.tupled((_1.get, _2.get, _3.get, _4.get))) }, (_: Any) => throw new Exception("Inserting into ? projection not supported."))
 
   val id: Column[Int] = column[Int]("ID", O.AutoInc, O.PrimaryKey)
-  val baseline: Column[Int] = column[Int]("BASELINE")
+  val basevalue: Column[Int] = column[Int]("BASEVALUE")
   val vote: Column[Int] = column[Int]("VOTE")
   val delta: Column[Int] = column[Int]("DELTA")
 }
@@ -19,8 +19,8 @@ object VoteValues extends DAO {
   def findById(id: Int)(implicit session: Session): Option[VoteValue] =
     VoteValues.filter(_.id === id).firstOption
 
-  def findByBaseline(baseline: Int)(implicit session: Session): Option[VoteValue] =
-    VoteValues.filter(_.baseline === baseline).firstOption
+  def findByBaseValue(basevalue: Int)(implicit session: Session): Option[VoteValue] =
+    VoteValues.filter(_.basevalue === basevalue).firstOption
 
   def findByVote(vote: Int)(implicit session: Session): Option[VoteValue] =
     VoteValues.filter(_.vote === vote).firstOption

@@ -17,7 +17,7 @@ object Application extends Controller {
       val task = Tasks.findById(newTaskId).get
       
       val tasksOfProject = Projects.findTasks(projectId)
-      
+
       Ok("I have created " + task + " The project has now these tasks: " + tasksOfProject.mkString(", "))     
     }
   }  
