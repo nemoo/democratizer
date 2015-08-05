@@ -1,6 +1,8 @@
 
 
+GET    /ui                                 controllers.Application.ui
 GET    /                                   controllers.Application.test1
 GET    /add/:name/to/:id                   controllers.Application.addTaskToProject(name: String, id: Long)
 
-
+# Map static resources from the /public folder to the /assets URL path; using asset fingerprinting
+GET    /assets/*file                              controllers.Assets.versioned(path="/public", file: Asset)

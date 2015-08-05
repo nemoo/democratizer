@@ -28,6 +28,14 @@ object Application extends Controller {
     	val data2 = Projects.findByName("xzy")
       Ok(data.toString)     
     }
-  }  
+  }
+
+  def ui = Action { implicit rs =>
+    DB.withSession{ implicit connection =>
+      val data = Tasks.findByColor("blue")
+      val data2 = Projects.findByName("xzy")
+      Ok(views.html.main(5))     
+    }
+  }   
     
 }
