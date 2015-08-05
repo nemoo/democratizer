@@ -1,5 +1,7 @@
 package test
 
+import java.sql.Date
+
 import org.specs2.mutable._
 
 import play.api.test._
@@ -69,12 +71,22 @@ class ModelSpec extends Specification {
 
   "A Baseline" should {
 
-    "be retrieved by color" in {
+    "be retrieved by name" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(task) = Tasks.findByColor("blue")
-          Tasks.count must be_==(5)
-          task.color must equalTo("blue")
+          val Some(baseline) = Baselines.findByName("aut")
+          Baselines.all.length must be_==(1)
+          baseline.name must equalTo("aut")
+        }
+      }
+    }
+
+    "be retrieved by year" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(baseline) = Baselines.findByYear(new Date(2014, 12, 4))
+          Baselines.all.length must be_==(1)
+          baseline.year must equalTo(new Date(2014, 12, 4))
         }
       }
     }
@@ -83,11 +95,11 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         DB.withSession{ implicit s =>
-          Tasks.insert(Task(99,"black", 1))
+          Baselines.insert(Baseline(99, "de", new Date(2014, 1, 1), "super"))
 
-          val Some(item) = Tasks.findByColor("black")
-          item.color must equalTo("black")
-          Tasks.count must be_==(6)
+          val Some(baseline) = Baselines.findById(2)
+          baseline.name must equalTo("de")
+          Baselines.all.length must be_==(2)
         }
       }
     }
@@ -97,12 +109,13 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         DB.withSession{ implicit s =>
-          Tasks.count must be_==(5)
-          Tasks.findByColor("cyan") must beNone
+          Baselines.all.length must be_==(1)
+          Baselines.findByName("ch") must beNone
         }
       }
     }
 
+    /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
@@ -112,19 +125,19 @@ class ModelSpec extends Specification {
           results must have size(1)
         }
       }
-    }
+    }*/
 
   }
 
 
   "A BaseValue" should {
 
-    "be retrieved by color" in {
+    "be retrieved by Baseline" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(task) = Tasks.findByColor("blue")
-          Tasks.count must be_==(5)
-          task.color must equalTo("blue")
+          val Some(baseval) = BaseValues.findByBaseline(1)
+          BaseValues.all.length must be_==(3)
+          baseval.category must equalTo("Soziales")
         }
       }
     }
@@ -133,26 +146,26 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         DB.withSession{ implicit s =>
-          Tasks.insert(Task(99,"black", 1))
+          BaseValues.insert(BaseValue(99, 1, "Verwaltung", 7000))
 
-          val Some(item) = Tasks.findByColor("black")
-          item.color must equalTo("black")
-          Tasks.count must be_==(6)
+          val Some(baseval) = BaseValues.findById(4)
+          baseval.category must equalTo("Verwaltung")
+          BaseValues.all.length must be_==(4)
         }
       }
     }
-
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         DB.withSession{ implicit s =>
-          Tasks.count must be_==(5)
-          Tasks.findByColor("cyan") must beNone
+          BaseValues.all.length must be_==(3)
+          BaseValues.findByBaseline(2) must beNone
         }
       }
     }
 
+    /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
@@ -162,7 +175,7 @@ class ModelSpec extends Specification {
           results must have size(1)
         }
       }
-    }
+    }*/
 
   }
   
