@@ -44,3 +44,25 @@ object Baselines extends DAO {
     (Baselines returning Baselines.map(_.id)) += a
 
 }
+
+
+object BaselineRepo extends DAO {
+
+  def listAll(implicit session: Session): List[Baseline] =
+    models.Baselines.all
+
+  def listCount(count: Int)(implicit session: Session): List[Baseline] =
+    models.Baselines.all.take(count)
+
+  def findById(id: Long)(implicit session: Session): Option[Baseline] =
+    models.Baselines.findById(id)
+
+  def findByName(name: String)(implicit session: Session): Option[Baseline] =
+    models.Baselines.findByName(name)
+
+  def findByYear(year: DateTime)(implicit session: Session): Option[Baseline] =
+    models.Baselines.findByYear(year)
+
+  def findByNameAndYear(name: String, year: DateTime)(implicit session: Session): Option[Baseline] =
+    models.Baselines.findByNameAndYear(name,year)
+}
