@@ -27,6 +27,8 @@ object Votes extends DAO {
   def findByUser(user: Long)(implicit  session: Session): Option[Vote] =
     Votes.filter(_.user === user).firstOption
 
+  //TODO Join (Baseline+User)!
+
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks

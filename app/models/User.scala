@@ -17,6 +17,9 @@ object Users extends DAO {
   def findById(id: Long)(implicit session: Session): Option[User] =
     Users.filter(_.id === id).firstOption
 
+  def findByProfile(profile: String)(implicit session: Session): Option[User] =
+    Users.filter(_.profile === profile).firstOption
+
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks

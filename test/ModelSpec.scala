@@ -177,5 +177,179 @@ class ModelSpec extends Specification {
     }*/
 
   }
-  
+
+
+  "A User" should {
+
+    "be retrieved by profile" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(user) = Users.findByProfile("googleplus.com")
+          Users.all.length must be_==(1)
+          user.profile must equalTo("googleplus.com")
+        }
+      }
+    }
+
+    "be inserted" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          Users.insert(User(99,"twitter.com"))
+
+          val Some(user) = Users.findById(2)
+          user.profile must equalTo("twitter.com")
+          Users.all.length must be_==(2)
+        }
+      }
+    }
+
+
+    "be unchangeable" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          Users.all.length must be_==(1)
+          Users.findByProfile("facebook.com") must beNone
+        }
+      }
+    }
+
+    /*
+    "be selectable distinct" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          val results = Tasks.distinctTest
+          results.map(x => println(x.name))
+          results must have size(1)
+        }
+      }
+    }*/
+
+  }
+
+
+  "A Vote" should {
+
+    "be retrieved by Baseline" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(vote) = Votes.findByBaseline(1)
+          Votes.all.length must be_==(1)
+          vote.baseline must equalTo(1)
+        }
+      }
+    }
+
+    "be retrieved by User" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(vote) = Votes.findByUser(1)
+          Votes.all.length must be_==(1)
+          vote.user must equalTo(1)
+        }
+      }
+    }
+
+    "be inserted" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          Votes.insert(Vote(99,1,1,new DateTime(2013,8,1,21,44)))
+
+          val Some(vote) = Votes.findById(2)
+          vote.timestamp must equalTo(new DateTime(2013,8,1,21,44))
+          Votes.all.length must be_==(2)
+        }
+      }
+    }
+
+    "be unchangeable" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          Votes.all.length must be_==(1)
+          Votes.findByBaseline(2) must beNone
+          Votes.findByUser(2) must beNone
+        }
+      }
+    }
+
+    /*
+    "be selectable distinct" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          val results = Tasks.distinctTest
+          results.map(x => println(x.name))
+          results must have size(1)
+        }
+      }
+    }*/
+
+  }
+
+
+  "A VoteValue" should {
+
+    "be retrieved by BaseValue" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(voteval) = VoteValues.findByBaseValue(2)
+          VoteValues.all.length must be_==(3)
+          voteval.delta must be_==(-200)
+        }
+      }
+    }
+
+    "be retrieved by Vote" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(voteval) = VoteValues.findByVote(1)
+          VoteValues.all.length must be_==(3)
+          voteval.delta must be_==(20)
+        }
+      }
+    }
+
+    "be inserted" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          VoteValues.insert(VoteValue(99,1,1,600))
+
+          val Some(voteval) = VoteValues.findById(4)
+          voteval.delta must be_==(600)
+          VoteValues.all.length must be_==(4)
+        }
+      }
+    }
+
+    "be unchangeable" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          VoteValues.all.length must be_==(3)
+          VoteValues.findByBaseValue(4) must beNone
+          VoteValues.findByVote(2) must beNone
+        }
+      }
+    }
+
+    /*
+    "be selectable distinct" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        DB.withSession{ implicit s =>
+          val results = Tasks.distinctTest
+          results.map(x => println(x.name))
+          results must have size(1)
+        }
+      }
+    }*/
+
+  }
+
+
 }

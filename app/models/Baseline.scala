@@ -27,6 +27,8 @@ object Baselines extends DAO {
   def findByYear(year: DateTime)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.year === year).firstOption
 
+  //TODO Join (Year+Name)?
+
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks
