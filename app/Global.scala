@@ -1,10 +1,9 @@
 import java.text.SimpleDateFormat
+import org.joda.time.DateTime
 import play.api._
 import models._
 import play.api.db.slick._
 import play.api.Play.current
-import java.sql.Date
-import java.sql.Timestamp
 
 object Global extends GlobalSettings {
 
@@ -41,8 +40,8 @@ object InitialData {
 
       }
 
-      if (Baselines.all.length==0 && BaseValues.all.length==0 && Users.all.length==0 && Votes.all.length==0 && VoteValues.all.length==0) {
-        val base1 = Baselines.insert(Baseline(99, "aut", new Date(2014, 12, 4), "wow"))
+      if (Baselines.all.isEmpty && BaseValues.all.isEmpty && Users.all.isEmpty && Votes.all.isEmpty && VoteValues.all.isEmpty) {
+        val base1 = Baselines.insert(Baseline(99, "aut", new DateTime(2014, 12, 4, 0, 0), "wow"))
 
 
         val baseval1 = BaseValues.insert(BaseValue(99, base1, "Soziales", 500))
@@ -50,7 +49,7 @@ object InitialData {
         val baseval3 = BaseValues.insert(BaseValue(99, base1, "Wirtschaft", 4000))
 
         val user1 = Users.insert(User(99,"googleplus.com"))
-        val vote1 = Votes.insert(Vote(99,base1,user1,new Timestamp(2014,12,3,21,12,13,23)))
+        val vote1 = Votes.insert(Vote(99,base1,user1,new DateTime(2014,12,3,21,4)))
 
         Seq(
           VoteValue(99,baseval1,vote1,20),

@@ -1,7 +1,6 @@
 package test
 
-import java.sql.Date
-
+import org.joda.time.DateTime
 import org.specs2.mutable._
 
 import play.api.test._
@@ -84,9 +83,9 @@ class ModelSpec extends Specification {
     "be retrieved by year" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(baseline) = Baselines.findByYear(new Date(2014, 12, 4))
+          val Some(baseline) = Baselines.findByYear(new DateTime(2014, 12, 4, 0, 0))
           Baselines.all.length must be_==(1)
-          baseline.year must equalTo(new Date(2014, 12, 4))
+          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
         }
       }
     }
@@ -95,7 +94,7 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         DB.withSession{ implicit s =>
-          Baselines.insert(Baseline(99, "de", new Date(2014, 1, 1), "super"))
+          Baselines.insert(Baseline(99, "de", new DateTime(2013, 5, 2, 0, 0), "super"))
 
           val Some(baseline) = Baselines.findById(2)
           baseline.name must equalTo("de")

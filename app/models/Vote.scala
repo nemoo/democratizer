@@ -1,9 +1,10 @@
 package models
 
 import play.api.db.slick.Config.driver.simple._
-import java.sql.Timestamp
+import org.joda.time.DateTime
+import Implicits._
 
-case class Vote(id: Long, baseline: Long, user: Long, timestamp: Timestamp)
+case class Vote(id: Long, baseline: Long, user: Long, timestamp: DateTime)
 
 class VoteTable(tag: Tag) extends Table[Vote](tag, "VOTE") {
   def * = (id, baseline, user, timestamp) <> (Vote.tupled, Vote.unapply)
@@ -12,7 +13,7 @@ class VoteTable(tag: Tag) extends Table[Vote](tag, "VOTE") {
   val id: Column[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
   val baseline: Column[Long] = column[Long]("BASELINE")
   val user: Column[Long] = column[Long]("USER")
-  val timestamp: Column[Timestamp] = column[Timestamp]("TIMESTAMP")
+  val timestamp: Column[DateTime] = column[DateTime]("TIMESTAMP")
 }
 
 object Votes extends DAO {

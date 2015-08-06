@@ -1,9 +1,10 @@
 package models
 
 import play.api.db.slick.Config.driver.simple._
-import java.sql.Date
+import org.joda.time.DateTime
+import Implicits._
 
-case class Baseline(id: Long, name: String, year: Date, description: String)
+case class Baseline(id: Long, name: String, year: DateTime, description: String)
 
 class BaselineTable(tag: Tag) extends Table[Baseline](tag, "BASELINE") {
   def * = (id, name, year, description) <> (Baseline.tupled, Baseline.unapply)
@@ -11,7 +12,7 @@ class BaselineTable(tag: Tag) extends Table[Baseline](tag, "BASELINE") {
 
   val id: Column[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
   val name: Column[String] = column[String]("NAME")
-  val year: Column[Date] = column[Date]("YEAR")
+  val year: Column[DateTime] = column[DateTime]("YEAR")
   val description: Column[String] = column[String]("DESCRIPTION")
 }
 
@@ -23,7 +24,7 @@ object Baselines extends DAO {
   def findByName(name: String)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.name === name).firstOption
 
-  def findByYear(year: Date)(implicit session: Session): Option[Baseline] =
+  def findByYear(year: DateTime)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.year === year).firstOption
 
   /**
