@@ -24,3 +24,5 @@ resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositori
 pipelineStages := Seq(digest, gzip)
 
 fork in run := true
+
+fork in run := true
