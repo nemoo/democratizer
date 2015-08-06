@@ -90,6 +90,17 @@ class ModelSpec extends Specification {
       }
     }
 
+    "be retrieved by name and year" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(baseline) = Baselines.findByNameAndYear("aut",new DateTime(2014, 12, 4, 0, 0))
+          Baselines.all.length must be_==(1)
+          baseline.name must equalTo("aut")
+          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
+        }
+      }
+    }
+
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
@@ -252,6 +263,17 @@ class ModelSpec extends Specification {
       }
     }
 
+    "be retrieved by Baseline and User" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(vote) = Votes.findByBaselineAndUser(1,1)
+          Votes.all.length must be_==(1)
+          vote.baseline must equalTo(1)
+          vote.user must equalTo(1)
+        }
+      }
+    }
+
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
@@ -309,6 +331,16 @@ class ModelSpec extends Specification {
           val Some(voteval) = VoteValues.findByVote(1)
           VoteValues.all.length must be_==(3)
           voteval.delta must be_==(20)
+        }
+      }
+    }
+
+    "be retrieved by Basevalue and Vote" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(voteval) = VoteValues.findByBaseValueAndVote(3,1)
+          VoteValues.all.length must be_==(3)
+          voteval.delta must be_==(-300)
         }
       }
     }

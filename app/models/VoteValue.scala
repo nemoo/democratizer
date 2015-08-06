@@ -25,7 +25,8 @@ object VoteValues extends DAO {
   def findByVote(vote: Long)(implicit session: Session): Option[VoteValue] =
     VoteValues.filter(_.vote === vote).firstOption
 
-  //TODO Join (BaseValue+Vote)!
+  def findByBaseValueAndVote(basevalue: Long, vote: Long)(implicit session: Session): Option[VoteValue] =
+    VoteValues.filter(_.vote === vote).filter(_.basevalue === basevalue).firstOption
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
