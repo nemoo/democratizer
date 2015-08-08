@@ -352,6 +352,17 @@ class ModelSpec extends Specification {
       }
     }
 
+    "let their deltas be updated" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          VoteValues.editDeltaById(2,-400) must be_==(1)
+          val Some(voteval) = VoteValues.findById(2)
+          VoteValues.listAll.length must be_==(3)
+          voteval.delta must be_==(-400)
+        }
+      }
+    }
+
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
