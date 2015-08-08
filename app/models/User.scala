@@ -20,17 +20,20 @@ object Users extends DAO {
   def findByProfile(profile: String)(implicit session: Session): Option[User] =
     Users.filter(_.profile === profile).firstOption
 
+  def listAll(implicit session: Session): List[User] =
+    Users.list
+
+  def listCount(count: Int)(implicit session: Session): List[User] =
+    Users.list.take(count)
+
+  def insert(a: User)(implicit session: Session): Long =
+    (Users returning Users.map(_.id)) += a
+
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks
       .filter(_.project === id)
       .list
     */
-
-  def all(implicit session: Session): List[User] =
-    Users.list
-
-  def insert(a: User)(implicit session: Session): Long =
-    (Users returning Users.map(_.id)) += a
 
 }

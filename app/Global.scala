@@ -40,7 +40,7 @@ object InitialData {
 
       }
 
-      if (Baselines.all.isEmpty && BaseValues.all.isEmpty && Users.all.isEmpty && Votes.all.isEmpty && VoteValues.all.isEmpty) {
+      if (Baselines.listAll.isEmpty && BaseValues.listAll.isEmpty && Users.listAll.isEmpty && Votes.listAll.isEmpty && VoteValues.listAll.isEmpty) {
         val base1 = Baselines.insert(Baseline(99, "aut", new DateTime(2014, 12, 4, 0, 0), "wow"))
 
 

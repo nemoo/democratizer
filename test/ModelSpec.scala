@@ -32,10 +32,8 @@ class ModelSpec extends Specification {
     
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        
         DB.withSession{ implicit s =>
           Tasks.insert(Task(99,"black", 1))
-          
           val Some(item) = Tasks.findByColor("black")      
           item.color must equalTo("black")  
           Tasks.count must be_==(6)
@@ -46,7 +44,6 @@ class ModelSpec extends Specification {
     
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        
         DB.withSession{ implicit s =>
           Tasks.count must be_==(5)
           Tasks.findByColor("cyan") must beNone      
@@ -56,7 +53,6 @@ class ModelSpec extends Specification {
     
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))
@@ -68,14 +64,25 @@ class ModelSpec extends Specification {
   }
 
 
-  "A Baseline" should {
+  "Baselines" should {
+
+    "be retrieved by name and year" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(baseline) = Baselines.findByNameAndYear("aut",new DateTime(2014, 12, 4, 0, 0))
+          Baselines.listAll.length must be_==(1)
+          baseline.name must equalTo("aut")
+          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
+        }
+      }
+    }
 
     "be retrieved by name" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(baseline) = Baselines.findByName("aut")
-          Baselines.all.length must be_==(1)
-          baseline.name must equalTo("aut")
+          val baseline = Baselines.findByName("aut")
+          Baselines.listAll.length must be_==(1)
+          baseline must equalTo(List(Baseline(1, "aut", new DateTime(2014, 12, 4, 0, 0), "wow")))
         }
       }
     }
@@ -83,44 +90,29 @@ class ModelSpec extends Specification {
     "be retrieved by year" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(baseline) = Baselines.findByYear(new DateTime(2014, 12, 4, 0, 0))
-          Baselines.all.length must be_==(1)
-          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
-        }
-      }
-    }
-
-    "be retrieved by name and year" in {
-      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        DB.withSession{ implicit s =>
-          val Some(baseline) = Baselines.findByNameAndYear("aut",new DateTime(2014, 12, 4, 0, 0))
-          Baselines.all.length must be_==(1)
-          baseline.name must equalTo("aut")
-          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
+          val baseline = Baselines.findByYear(new DateTime(2014, 12, 4, 0, 0))
+          Baselines.listAll.length must be_==(1)
+          baseline must equalTo(List(Baseline(1, "aut", new DateTime(2014, 12, 4, 0, 0), "wow")))
         }
       }
     }
 
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           Baselines.insert(Baseline(99, "de", new DateTime(2013, 5, 2, 0, 0), "super"))
-
           val Some(baseline) = Baselines.findById(2)
           baseline.name must equalTo("de")
-          Baselines.all.length must be_==(2)
+          Baselines.listAll.length must be_==(2)
         }
       }
     }
 
-
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
-          Baselines.all.length must be_==(1)
-          Baselines.findByName("ch") must beNone
+          Baselines.listAll.length must be_==(1)
+          Baselines.findByName("ch") must beEmpty
         }
       }
     }
@@ -128,7 +120,6 @@ class ModelSpec extends Specification {
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))
@@ -140,37 +131,37 @@ class ModelSpec extends Specification {
   }
 
 
-  "A BaseValue" should {
+  "BaseValues" should {
 
     "be retrieved by Baseline" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(baseval) = BaseValues.findByBaseline(1)
-          BaseValues.all.length must be_==(3)
-          baseval.category must equalTo("Soziales")
+          val baseval = BaseValues.findByBaseline(1)
+          BaseValues.listAll.length must be_==(3)
+          baseval must equalTo(List(
+            BaseValue(1, 1, "Soziales", 500),
+            BaseValue(2, 1, "Rüstung", 300),
+            BaseValue(3, 1, "Wirtschaft", 4000)))
         }
       }
     }
 
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           BaseValues.insert(BaseValue(99, 1, "Verwaltung", 7000))
-
           val Some(baseval) = BaseValues.findById(4)
           baseval.category must equalTo("Verwaltung")
-          BaseValues.all.length must be_==(4)
+          BaseValues.listAll.length must be_==(4)
         }
       }
     }
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
-          BaseValues.all.length must be_==(3)
-          BaseValues.findByBaseline(2) must beNone
+          BaseValues.listAll.length must be_==(3)
+          BaseValues.findByBaseline(2) must beEmpty
         }
       }
     }
@@ -178,7 +169,6 @@ class ModelSpec extends Specification {
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))
@@ -196,7 +186,7 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
           val Some(user) = Users.findByProfile("googleplus.com")
-          Users.all.length must be_==(1)
+          Users.listAll.length must be_==(1)
           user.profile must equalTo("googleplus.com")
         }
       }
@@ -204,13 +194,11 @@ class ModelSpec extends Specification {
 
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           Users.insert(User(99,"twitter.com"))
-
           val Some(user) = Users.findById(2)
           user.profile must equalTo("twitter.com")
-          Users.all.length must be_==(2)
+          Users.listAll.length must be_==(2)
         }
       }
     }
@@ -218,9 +206,8 @@ class ModelSpec extends Specification {
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
-          Users.all.length must be_==(1)
+          Users.listAll.length must be_==(1)
           Users.findByProfile("facebook.com") must beNone
         }
       }
@@ -229,7 +216,6 @@ class ModelSpec extends Specification {
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))
@@ -241,14 +227,25 @@ class ModelSpec extends Specification {
   }
 
 
-  "A Vote" should {
+  "Votes" should {
+
+    "be retrieved by Baseline and User" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(vote) = Votes.findByBaselineAndUser(1,1)
+          Votes.listAll.length must be_==(1)
+          vote.baseline must equalTo(1)
+          vote.user must equalTo(1)
+        }
+      }
+    }
 
     "be retrieved by Baseline" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(vote) = Votes.findByBaseline(1)
-          Votes.all.length must be_==(1)
-          vote.baseline must equalTo(1)
+          val votes = Votes.findByBaseline(1)
+          Votes.listAll.length must be_==(1)
+          votes must equalTo(List(Vote(1,1,1,new DateTime(2014,12,3,21,4))))
         }
       }
     }
@@ -256,44 +253,30 @@ class ModelSpec extends Specification {
     "be retrieved by User" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(vote) = Votes.findByUser(1)
-          Votes.all.length must be_==(1)
-          vote.user must equalTo(1)
-        }
-      }
-    }
-
-    "be retrieved by Baseline and User" in {
-      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        DB.withSession{ implicit s =>
-          val Some(vote) = Votes.findByBaselineAndUser(1,1)
-          Votes.all.length must be_==(1)
-          vote.baseline must equalTo(1)
-          vote.user must equalTo(1)
+          val votes = Votes.findByUser(1)
+          Votes.listAll.length must be_==(1)
+          votes must equalTo(List(Vote(1,1,1,new DateTime(2014,12,3,21,4))))
         }
       }
     }
 
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           Votes.insert(Vote(99,1,1,new DateTime(2013,8,1,21,44)))
-
           val Some(vote) = Votes.findById(2)
           vote.timestamp must equalTo(new DateTime(2013,8,1,21,44))
-          Votes.all.length must be_==(2)
+          Votes.listAll.length must be_==(2)
         }
       }
     }
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
-          Votes.all.length must be_==(1)
-          Votes.findByBaseline(2) must beNone
-          Votes.findByUser(2) must beNone
+          Votes.listAll.length must be_==(1)
+          Votes.findByBaseline(2) must beEmpty
+          Votes.findByUser(2) must beEmpty
         }
       }
     }
@@ -301,7 +284,6 @@ class ModelSpec extends Specification {
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))
@@ -313,14 +295,24 @@ class ModelSpec extends Specification {
   }
 
 
-  "A VoteValue" should {
+  "VoteValues" should {
+
+    "be retrieved by Basevalue and Vote" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          val Some(voteval) = VoteValues.findByBaseValueAndVote(3,1)
+          VoteValues.listAll.length must be_==(3)
+          voteval.delta must be_==(-300)
+        }
+      }
+    }
 
     "be retrieved by BaseValue" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(voteval) = VoteValues.findByBaseValue(2)
-          VoteValues.all.length must be_==(3)
-          voteval.delta must be_==(-200)
+          val votevals = VoteValues.findByBaseValue(2)
+          VoteValues.listAll.length must be_==(3)
+          votevals must equalTo(List(VoteValue(2,2,1,-200)))
         }
       }
     }
@@ -328,43 +320,34 @@ class ModelSpec extends Specification {
     "be retrieved by Vote" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          val Some(voteval) = VoteValues.findByVote(1)
-          VoteValues.all.length must be_==(3)
-          voteval.delta must be_==(20)
-        }
-      }
-    }
+          val votevals = VoteValues.findByVote(1)
+          VoteValues.listAll.length must be_==(3)
+          votevals must equalTo(List(
+            VoteValue(1,1,1,20),
+            VoteValue(2,2,1,-200),
+            VoteValue(3,3,1,-300)))
 
-    "be retrieved by Basevalue and Vote" in {
-      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        DB.withSession{ implicit s =>
-          val Some(voteval) = VoteValues.findByBaseValueAndVote(3,1)
-          VoteValues.all.length must be_==(3)
-          voteval.delta must be_==(-300)
         }
       }
     }
 
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           VoteValues.insert(VoteValue(99,1,1,600))
-
           val Some(voteval) = VoteValues.findById(4)
           voteval.delta must be_==(600)
-          VoteValues.all.length must be_==(4)
+          VoteValues.listAll.length must be_==(4)
         }
       }
     }
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
-          VoteValues.all.length must be_==(3)
-          VoteValues.findByBaseValue(4) must beNone
-          VoteValues.findByVote(2) must beNone
+          VoteValues.listAll.length must be_==(3)
+          VoteValues.findByBaseValue(4) must beEmpty
+          VoteValues.findByVote(2) must beEmpty
         }
       }
     }
@@ -372,7 +355,6 @@ class ModelSpec extends Specification {
     /*
     "be selectable distinct" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-
         DB.withSession{ implicit s =>
           val results = Tasks.distinctTest
           results.map(x => println(x.name))

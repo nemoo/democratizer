@@ -19,14 +19,23 @@ object VoteValues extends DAO {
   def findById(id: Long)(implicit session: Session): Option[VoteValue] =
     VoteValues.filter(_.id === id).firstOption
 
-  def findByBaseValue(basevalue: Long)(implicit session: Session): Option[VoteValue] =
-    VoteValues.filter(_.basevalue === basevalue).firstOption
-
-  def findByVote(vote: Long)(implicit session: Session): Option[VoteValue] =
-    VoteValues.filter(_.vote === vote).firstOption
-
   def findByBaseValueAndVote(basevalue: Long, vote: Long)(implicit session: Session): Option[VoteValue] =
     VoteValues.filter(_.vote === vote).filter(_.basevalue === basevalue).firstOption
+
+  def findByBaseValue(basevalue: Long)(implicit session: Session): List[VoteValue] =
+    VoteValues.filter(_.basevalue === basevalue).list
+
+  def findByVote(vote: Long)(implicit session: Session): List[VoteValue] =
+    VoteValues.filter(_.vote === vote).list
+
+  def listAll(implicit session: Session): List[VoteValue] =
+    VoteValues.list
+
+  def listCount(count: Int)(implicit session: Session): List[VoteValue] =
+    VoteValues.list.take(count)
+
+  def insert(a: VoteValue)(implicit session: Session): Long =
+    (VoteValues returning VoteValues.map(_.id)) += a
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
@@ -34,11 +43,4 @@ object VoteValues extends DAO {
       .filter(_.project === id)
       .list
     */
-
-  def all(implicit session: Session): List[VoteValue] =
-    VoteValues.list
-
-  def insert(a: VoteValue)(implicit session: Session): Long =
-    (VoteValues returning VoteValues.map(_.id)) += a
-
 }

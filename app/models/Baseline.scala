@@ -21,14 +21,23 @@ object Baselines extends DAO {
   def findById(id: Long)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.id === id).firstOption
 
-  def findByName(name: String)(implicit session: Session): Option[Baseline] =
-    Baselines.filter(_.name === name).firstOption
-
-  def findByYear(year: DateTime)(implicit session: Session): Option[Baseline] =
-    Baselines.filter(_.year === year).firstOption
-
   def findByNameAndYear(name: String, year: DateTime)(implicit session: Session): Option[Baseline] =
     Baselines.filter(_.name === name).filter(_.year === year).firstOption
+
+  def findByName(name: String)(implicit session: Session): List[Baseline] =
+    Baselines.filter(_.name === name).list
+
+  def findByYear(year: DateTime)(implicit session: Session): List[Baseline] =
+    Baselines.filter(_.year === year).list
+
+  def listAll(implicit session: Session): List[Baseline] =
+    Baselines.list
+
+  def listCount(count: Int)(implicit session: Session): List[Baseline] =
+    Baselines.list.take(count)
+
+  def insert(a: Baseline)(implicit session: Session): Long =
+    (Baselines returning Baselines.map(_.id)) += a
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
@@ -36,33 +45,4 @@ object Baselines extends DAO {
       .filter(_.project === id)
       .list
     */
-
-  def all(implicit session: Session): List[Baseline] =
-    Baselines.list
-
-  def insert(a: Baseline)(implicit session: Session): Long =
-    (Baselines returning Baselines.map(_.id)) += a
-
-}
-
-
-object BaselineRepo extends DAO {
-
-  def listAll(implicit session: Session): List[Baseline] =
-    models.Baselines.all
-
-  def listCount(count: Int)(implicit session: Session): List[Baseline] =
-    models.Baselines.all.take(count)
-
-  def findById(id: Long)(implicit session: Session): Option[Baseline] =
-    models.Baselines.findById(id)
-
-  def findByName(name: String)(implicit session: Session): Option[Baseline] =
-    models.Baselines.findByName(name)
-
-  def findByYear(year: DateTime)(implicit session: Session): Option[Baseline] =
-    models.Baselines.findByYear(year)
-
-  def findByNameAndYear(name: String, year: DateTime)(implicit session: Session): Option[Baseline] =
-    models.Baselines.findByNameAndYear(name,year)
 }

@@ -21,14 +21,23 @@ object Votes extends DAO {
   def findById(id: Long)(implicit session: Session): Option[Vote] =
     Votes.filter(_.id === id).firstOption
 
-  def findByBaseline(baseline: Long)(implicit session: Session): Option[Vote] =
-    Votes.filter(_.baseline === baseline).firstOption
-
-  def findByUser(user: Long)(implicit  session: Session): Option[Vote] =
-    Votes.filter(_.user === user).firstOption
-
   def findByBaselineAndUser(baseline: Long, user: Long)(implicit session: Session): Option[Vote] =
     Votes.filter(_.baseline === baseline).filter(_.user === user).firstOption
+
+  def findByBaseline(baseline: Long)(implicit session: Session): List[Vote] =
+    Votes.filter(_.baseline === baseline).list
+
+  def findByUser(user: Long)(implicit  session: Session): List[Vote] =
+    Votes.filter(_.user === user).list
+
+  def listAll(implicit session: Session): List[Vote] =
+    Votes.list
+
+  def listCount(count: Int)(implicit session: Session): List[Vote] =
+    Votes.list.take(count)
+
+  def insert(a: Vote)(implicit session: Session): Long =
+    (Votes returning Votes.map(_.id)) += a
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
@@ -36,11 +45,5 @@ object Votes extends DAO {
       .filter(_.project === id)
       .list
     */
-
-  def all(implicit session: Session): List[Vote] =
-    Votes.list
-
-  def insert(a: Vote)(implicit session: Session): Long =
-    (Votes returning Votes.map(_.id)) += a
 
 }
