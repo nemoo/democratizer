@@ -1,6 +1,6 @@
-name := """democratizer"""
+name := """democratizer""" //TODO why 3 quotation marks?
 
-version := "1.0-SNAPSHOT"
+version := "1.0-SNAPSHOT" //TODO version?
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 

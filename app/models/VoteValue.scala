@@ -37,7 +37,7 @@ object VoteValues extends DAO {
   def insert(a: VoteValue)(implicit session: Session): Long =
     (VoteValues returning VoteValues.map(_.id)) += a
 
-  def editDeltaById(id: Long, newDelta: Int)(implicit session: Session): Long =
+  def update(id: Long, newDelta: Int)(implicit session: Session): Int =
     VoteValues.filter(_.id === id).map(_.delta).update(newDelta) //TODO returning VoteValues.map(_.id))?
 
   /**

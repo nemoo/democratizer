@@ -66,33 +66,12 @@ class ModelSpec extends Specification {
 
   "Baselines" should {
 
-    "be retrieved by name and year" in {
-      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        DB.withSession{ implicit s =>
-          val Some(baseline) = Baselines.findByNameAndYear("aut",new DateTime(2014, 12, 4, 0, 0))
-          Baselines.listAll.length must be_==(1)
-          baseline.name must equalTo("aut")
-          baseline.year must equalTo(new DateTime(2014, 12, 4, 0, 0))
-        }
-      }
-    }
-
     "be retrieved by name" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
           val baseline = Baselines.findByName("aut")
           Baselines.listAll.length must be_==(1)
-          baseline must equalTo(List(Baseline(1, "aut", new DateTime(2014, 12, 4, 0, 0), "wow")))
-        }
-      }
-    }
-
-    "be retrieved by year" in {
-      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        DB.withSession{ implicit s =>
-          val baseline = Baselines.findByYear(new DateTime(2014, 12, 4, 0, 0))
-          Baselines.listAll.length must be_==(1)
-          baseline must equalTo(List(Baseline(1, "aut", new DateTime(2014, 12, 4, 0, 0), "wow")))
+          baseline must equalTo(List(Baseline(1, "aut", 1000, "wow")))
         }
       }
     }
@@ -100,7 +79,7 @@ class ModelSpec extends Specification {
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          Baselines.insert(Baseline(99, "de", new DateTime(2013, 5, 2, 0, 0), "super"))
+          Baselines.insert(Baseline(99, "de",2000, "super"))
           val Some(baseline) = Baselines.findById(2)
           baseline.name must equalTo("de")
           Baselines.listAll.length must be_==(2)
@@ -355,7 +334,7 @@ class ModelSpec extends Specification {
     "let their deltas be updated" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          VoteValues.editDeltaById(2,-400) must be_==(1)
+          VoteValues.update(2,-400) must be_==(1)
           val Some(voteval) = VoteValues.findById(2)
           VoteValues.listAll.length must be_==(3)
           voteval.delta must be_==(-400)
