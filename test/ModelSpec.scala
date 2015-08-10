@@ -182,6 +182,16 @@ class ModelSpec extends Specification {
       }
     }
 
+    "be anonymized" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        DB.withSession{ implicit s =>
+          Users.anonymize(1) must be_==(1)
+          val Some(user) = Users.findById(1)
+          Users.listAll.length must be_==(1)
+          user.profile must be_==("anonymous")
+        }
+      }
+    }
 
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
@@ -331,7 +341,7 @@ class ModelSpec extends Specification {
       }
     }
 
-    "let their deltas be updated" in {
+    "be updated" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
           VoteValues.update(2,-400) must be_==(1)

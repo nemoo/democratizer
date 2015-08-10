@@ -40,6 +40,11 @@ object Votes extends DAO {
     (Votes returning Votes.map(_.id)) += a
 
   /**
+  def submit(id: Long)(implicit session: Session): Int =
+    Votes.filter(_.id === id).map(_.timestamp).update(new DateTime()) //TODO returning Vote.map(_.id))?
+  */
+
+  /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks
       .filter(_.project === id)

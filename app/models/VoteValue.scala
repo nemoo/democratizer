@@ -37,8 +37,23 @@ object VoteValues extends DAO {
   def insert(a: VoteValue)(implicit session: Session): Long =
     (VoteValues returning VoteValues.map(_.id)) += a
 
-  def update(id: Long, newDelta: Int)(implicit session: Session): Int =
-    VoteValues.filter(_.id === id).map(_.delta).update(newDelta) //TODO returning VoteValues.map(_.id))?
+  /**
+   * Updates the VoteValue's delta //only if the corresponding Vote was not submitted yet (i.e. if the Vote's timestamp is still null).
+   * @param id
+   * @param newDelta
+   * @param session
+   * @return number of updated elements (1 or 0)
+  */
+  def update(id: Long, newDelta: Int)(implicit session: Session): Int = {
+    val query = VoteValues.filter(_.id === id)
+    //val voteId = query.firstOption.get.vote
+
+    //if(models.Votes.findById(voteId).get.timestamp.isEmpty)
+      query.map(_.delta).update(newDelta) //TODO returning VoteValues.map(_.id))?
+
+    //else 0
+  }
+
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
