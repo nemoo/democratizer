@@ -234,7 +234,7 @@ class ModelSpec extends Specification {
         DB.withSession{ implicit s =>
           val votes = Votes.findByBaseline(1)
           Votes.listAll.length must be_==(1)
-          votes must equalTo(List(Vote(1,1,1,new DateTime(2014,12,3,21,4))))
+          votes must equalTo(List(Votes.findById(1).get))
         }
       }
     }
@@ -244,7 +244,7 @@ class ModelSpec extends Specification {
         DB.withSession{ implicit s =>
           val votes = Votes.findByUser(1)
           Votes.listAll.length must be_==(1)
-          votes must equalTo(List(Vote(1,1,1,new DateTime(2014,12,3,21,4))))
+          votes must equalTo(List(Votes.findById(1).get))
         }
       }
     }
@@ -254,7 +254,7 @@ class ModelSpec extends Specification {
         DB.withSession{ implicit s =>
           Votes.insert(Vote(99,1,1,new DateTime(2013,8,1,21,44)))
           val Some(vote) = Votes.findById(2)
-          vote.timestamp must equalTo(new DateTime(2013,8,1,21,44))
+          vote must equalTo(Votes.findById(2).get)
           Votes.listAll.length must be_==(2)
         }
       }
