@@ -1,8 +1,21 @@
 
 
-GET    /ui                                 controllers.Application.ui
-GET    /                                   controllers.Application.test1
-GET    /add/:name/to/:id                   controllers.Application.addTaskToProject(name: String, id: Long)
+GET         /ui                          controllers.Application.ui
+GET         /                            controllers.Application.test1
+GET         /add/:name/to/:id            controllers.Application.addTaskToProject(name: String, id: Long)
+
+GET         /user/:profile               controllers.REST.getUser(profile: String)
+GET         /baselines                   controllers.REST.getBaselines
+GET         /submittedvotes/:user        controllers.REST.getSubmittedVotes(user: Long)
+GET         /vote/:baseline/:vote        controllers.REST.getVote(baseline: Long, vote: Long)
+
+POST        /savebaseline                controllers.REST.postBaseline
+POST        /savebasevalues              controllers.REST.postBaseValues
+
+POST        /savevote                    controllers.REST.postVote
+POST        /savedeltas                  controllers.REST.postDeltas
+
+POST        /saveuser                    controllers.REST.postUser
 
 # Map static resources from the /public folder to the /assets URL path; using asset fingerprinting
-GET    /assets/*file                              controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)

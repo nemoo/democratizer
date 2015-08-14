@@ -36,13 +36,12 @@ object Votes extends DAO {
   def listCount(count: Int)(implicit session: Session): List[Vote] =
     Votes.list.take(count)
 
+  //forces timestamp to be current
   def insert(a: Vote)(implicit session: Session): Long =
-    (Votes returning Votes.map(_.id)) += a
+    (Votes returning Votes.map(_.id)) += Vote(a.id, a.baseline, a.user, new DateTime())
 
-  /**
-  def submit(id: Long)(implicit session: Session): Int =
+  def update(id: Long)(implicit session: Session): Int =
     Votes.filter(_.id === id).map(_.timestamp).update(new DateTime()) //TODO returning Vote.map(_.id))?
-  */
 
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
