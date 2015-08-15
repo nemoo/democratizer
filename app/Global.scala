@@ -44,9 +44,9 @@ object InitialData {
         val base1 = Baselines.insert(Baseline(99, "aut", 1000, "wow"))
 
 
-        val baseval1 = BaseValues.insert(BaseValue(99, base1, "Soziales", 500))
-        val baseval2 = BaseValues.insert(BaseValue(99, base1, "Rüstung", 300))
-        val baseval3 = BaseValues.insert(BaseValue(99, base1, "Wirtschaft", 4000))
+        val baseval1 = BaseValues.insert(BaseValue(99, base1, "Soziales", 500, "des"))
+        val baseval2 = BaseValues.insert(BaseValue(99, base1, "Rüstung", 300, "descr"))
+        val baseval3 = BaseValues.insert(BaseValue(99, base1, "Wirtschaft", 4000, "descrip"))
 
         val user1 = Users.insert(User(99,"googleplus.com"))
         val vote1 = Votes.insert(Vote(99,base1,user1,new DateTime(2014,12,3,21,4)))

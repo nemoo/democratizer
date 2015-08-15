@@ -21,13 +21,13 @@ object Implicits {
 
   implicit val baselineWrites: Writes[Baseline] = Json.writes[Baseline]
 
-  implicit val basevalueWrites = Writes[BaseValue] = Json.writes[BaseValue]
+  implicit val basevalueWrites: Writes[BaseValue] = Json.writes[BaseValue]
 
-  implicit val voteWrites = Writes[Vote] = Json.writes[Vote]
+  implicit val voteWrites: Writes[Vote] = Json.writes[Vote]
 
-  implicit val votevaluelineWrites = Writes[VoteValue] = Json.writes[VoteValue]
+  implicit val votevaluelineWrites: Writes[VoteValue] = Json.writes[VoteValue]
 
-  implicit val userWrites = Writes[User] = Json.writes[User]
+  implicit val userWrites: Writes[User] = Json.writes[User]
 
   /**
   implicit val baselineReads: Reads[Baseline] = (

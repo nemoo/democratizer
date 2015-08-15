@@ -118,9 +118,9 @@ class ModelSpec extends Specification {
           val baseval = BaseValues.findByBaseline(1)
           BaseValues.listAll.length must be_==(3)
           baseval must equalTo(List(
-            BaseValue(1, 1, "Soziales", 500),
-            BaseValue(2, 1, "Rüstung", 300),
-            BaseValue(3, 1, "Wirtschaft", 4000)))
+            BaseValue(1, 1, "Soziales", 500, "des"),
+            BaseValue(2, 1, "Rüstung", 300, "descr"),
+            BaseValue(3, 1, "Wirtschaft", 4000, "descrip")))
         }
       }
     }
@@ -128,7 +128,7 @@ class ModelSpec extends Specification {
     "be inserted" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          BaseValues.insert(BaseValue(99, 1, "Verwaltung", 7000))
+          BaseValues.insert(BaseValue(99, 1, "Verwaltung", 7000, "description1"))
           val Some(baseval) = BaseValues.findById(4)
           baseval.category must equalTo("Verwaltung")
           BaseValues.listAll.length must be_==(4)
