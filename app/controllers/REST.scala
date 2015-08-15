@@ -52,7 +52,7 @@ object REST extends Controller {
         Ok(Json.toJson(user))
 
       } else {
-        BadRequest("Bad Request: User does not exist!")
+        BadRequest(Json.obj("status" -> "KO", "message" -> "User does not exist!"))
       }
     }
   }
@@ -73,6 +73,19 @@ object REST extends Controller {
     }
   }
 
+  def anonymizeUser(user: Long) = Action { implicit rs =>
+    DB.withSession { implicit connection =>
+
+      if(Users.findById(user).isDefined) {
+        Users.anonymize(user)
+        Ok(Json.obj("status" -> "OK", "message" -> ("User anonymized.")))
+
+      } else {
+        BadRequest("Bad Request: User does not exist!")
+      }
+    }
+  }
+
   def getOverview(user: Long) = Action { implicit rs =>
     DB.withSession { implicit connection =>
 
@@ -87,7 +100,7 @@ object REST extends Controller {
         Ok(Json.toJson(data))
 
       } else {
-        BadRequest("Bad Request: User does not exist!")
+        BadRequest(Json.obj("status" -> "KO", "message" -> "User does not exist!"))
       }
     }
   }
@@ -99,40 +112,27 @@ object REST extends Controller {
       val vote = Votes.findByBaselineAndUser(baseline, user)
 
       if (Users.findById(user).isDefined && base.isDefined) {
-
-        if(vote.isDefined) {
-          val data: Voteview = Voteview(
-            base.get.name,
-            base.get.revenue,
-            BaseValues.findByBaseline(baseline).map(basevalue => Bar(
-              basevalue.category,
-              basevalue.description,
-              basevalue.value,
-              0, //TODO averagevalue!!!
-              VoteValues.findByBaseValueAndVote(basevalue.id, vote.get.id).get.delta //TODO "exception"?
-            )))
-          Ok(Json.toJson(data))
-        } else {
-          val data: Voteview = Voteview(
-            base.get.name,
-            base.get.revenue,
-            BaseValues.findByBaseline(baseline).map(basevalue => Bar(
-              basevalue.category,
-              basevalue.description,
-              basevalue.value,
-              0, //TODO averagevalue!!!
-              0
-            )))
-          Ok(Json.toJson(data))
-        }
+        val data: Voteview = Voteview(
+          base.get.name,
+          base.get.revenue,
+          BaseValues.findByBaseline(baseline).map(basevalue => Bar(
+            basevalue.category,
+            basevalue.description,
+            basevalue.value,
+            VoteValues.getAverage(basevalue.id),
+            vote match {
+              case some: Some[Vote] => VoteValues.findByBaseValueAndVote (basevalue.id, vote.get.id).get.delta //TODO "exception"?
+              case _          => 0
+            }
+          )))
+        Ok(Json.toJson(data))
 
       } else {
-        BadRequest("Bad Request: Check your User and Baseline!")
+        BadRequest(Json.obj("status" -> "KO", "message" -> "Bad Request: Check your User and Baseline!"))
       }
     }
   }
 
-  //TODO if not exists - creating vote and deltas --> else if exists - updating timestamp and deltas
   def postSubmission() = Action(BodyParsers.parse.json) { implicit request =>
     DB.withSession { implicit connection =>
 
@@ -169,7 +169,7 @@ object REST extends Controller {
 
   //***<--*** DEPRECATED ***-->***//
 
-  def getBaselines() = Action { implicit rs =>
+  def getBaselines = Action { implicit rs =>
     DB.withSession { implicit connection =>
 
       val data = Json.toJson(Baselines.listAll)

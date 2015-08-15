@@ -7,6 +7,7 @@ POST        /savebasevalues                     controllers.REST.postBaseValues
 
 GET         /getuser/:profile                   controllers.REST.getUser(profile: String)
 POST        /saveuser                           controllers.REST.postUser
+POST        /anonymizeuser/:user                controllers.REST.anonymizeUser(user: Long)
 
 GET         /getOverview/:user                  controllers.REST.getOverview(user: Long)
 GET         /getVoteview/:user/:baseline        controllers.REST.getVoteview(user: Long, baseline: Long)

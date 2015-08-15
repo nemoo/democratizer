@@ -40,6 +40,12 @@ object VoteValues extends DAO {
   def update(id: Long, newDelta: Int)(implicit session: Session): Int =
     VoteValues.filter(_.id === id).map(_.delta).update(newDelta) //TODO returning VoteValues.map(_.id))?
 
+  def getAverage(basevalue: Long)(implicit session: Session): Int = {
+    val deltas = findByBaseValue(basevalue).map(v => v.delta)
+    deltas.sum / deltas.length
+  }
+
+
   /**
   def findTasks(id: Long)(implicit session: Session): List[Task] =
     Tasks
