@@ -42,7 +42,7 @@ object VoteValues extends DAO {
 
   def getAverage(basevalue: Long)(implicit session: Session): Int = {
     val deltas = findByBaseValue(basevalue).map(v => v.delta)
-    deltas.sum / deltas.length
+    if(deltas.nonEmpty) deltas.sum / deltas.length else 0
   }
 
 
