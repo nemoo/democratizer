@@ -1,3 +1,0 @@
-# This are the proxy settings we use for activator
--Dhttp.proxyHost=lanbc
--Dhttp.proxyPort=80
