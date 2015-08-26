@@ -70,8 +70,8 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
           val baseline = Baselines.findByName("aut")
-          Baselines.listAll.length must be_==(1)
-          baseline must equalTo(List(Baseline(1, "aut", 1000, "wow")))
+          Baselines.listAll.length must be_==(2)
+          baseline must equalTo(List(Baseline(1, "aut", 1000, "Minions ipsum aute jeje daa occaecat wiiiii bappleees. Voluptate reprehenderit tatata bala tu ex bananaaaa poopayee ullamco poopayee sit amet occaecat ullamco. Dolore la bodaaa aliquip tatata bala tu. Esse ut qui sed magna bappleees veniam elit ex reprehenderit pepete. Dolor esse daa hahaha. Jeje incididunt aliquip veniam bappleees voluptate gelatooo daa consequat adipisicing. Consectetur wiiiii chasy eiusmod gelatooo tank yuuu! Hahaha qui tank yuuu! Ullamco commodo ad aliqua ex nostrud occaecat aute uuuhhh.")))
         }
       }
     }
@@ -80,9 +80,9 @@ class ModelSpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
           Baselines.insert(Baseline(99, "de",2000, "super"))
-          val Some(baseline) = Baselines.findById(2)
+          val Some(baseline) = Baselines.findById(3)
           baseline.name must equalTo("de")
-          Baselines.listAll.length must be_==(2)
+          Baselines.listAll.length must be_==(3)
         }
       }
     }
@@ -90,7 +90,7 @@ class ModelSpec extends Specification {
     "be unchangeable" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         DB.withSession{ implicit s =>
-          Baselines.listAll.length must be_==(1)
+          Baselines.listAll.length must be_==(2)
           Baselines.findByName("ch") must beEmpty
         }
       }

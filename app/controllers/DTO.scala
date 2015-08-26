@@ -2,7 +2,7 @@ package controllers
 
 import play.api.libs.json._
 
-case class Overview(id: Long, name: String, revenue: Int, description: String, submitted: Boolean)
+case class Overview(id: Long, name: String, description: String, submitted: Boolean)
 
 case class Bar(category: String, description: String, basevalue: Int, averagevalue: Int, delta: Int)
 case class Voteview(name: String, revenue: Int, bars: List[Bar])

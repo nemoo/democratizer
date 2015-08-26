@@ -93,9 +93,8 @@ object REST extends Controller {
         val data: List[Overview] = Baselines.listAll.map(baseline => Overview(
           baseline.id,
           baseline.name,
-          baseline.revenue,
           baseline.description,
-          if (Votes.findByBaselineAndUser(baseline.id, user).isDefined) true else false))
+          Votes.findByBaselineAndUser(baseline.id, user).isDefined))
 
         Ok(Json.toJson(data))
 
