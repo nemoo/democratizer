@@ -78,7 +78,7 @@ object REST extends Controller {
 
       if(Users.findById(user).isDefined) {
         Users.anonymize(user)
-        Ok(Json.obj("status" -> "OK", "message" -> ("User anonymized.")))
+        Ok(Json.obj("status" -> "OK", "message" -> "User anonymized."))
 
       } else {
         BadRequest("Bad Request: User does not exist!")
@@ -90,7 +90,7 @@ object REST extends Controller {
     DB.withSession { implicit connection =>
 
       if (Users.findById(user).isDefined) {
-        val data: List[Overview] = Baselines.listAll.map(baseline => Overview(
+        val data: List[OverviewItem] = Baselines.listAll.map(baseline => OverviewItem(
           baseline.id,
           baseline.name,
           baseline.description,
@@ -152,7 +152,7 @@ object REST extends Controller {
             Ok(Json.obj("status" -> "OK", "message" -> "Vote saved."))
 
           } else {
-            Votes.update(vote.get.id)
+            Votes.refreshTimestamp(vote.get.id)
             submission.foreach(s => VoteValues.update(
               VoteValues.findByBaseValueAndVote(s.basevalue, vote.get.id).get.id, //TODO "exception"?
               s.delta
@@ -164,69 +164,5 @@ object REST extends Controller {
     }
   }
 
-
-
-  //***<--*** DEPRECATED ***-->***//
-
-  def getBaselines = Action { implicit rs =>
-    DB.withSession { implicit connection =>
-
-      val data = Json.toJson(Baselines.listAll)
-      Ok(data)
-    }
-  }
-
-  def getSubmittedVotes(user: Long) = Action { implicit rs =>
-    DB.withSession { implicit connection =>
-
-      val data = Json.toJson(Votes.findByUser(user))
-      Ok(data)
-    }
-  }
-
-  def getVote(baseline: Long, vote: Long) = Action { implicit rs =>
-    DB.withSession { implicit connection =>
-
-      val b = Json.toJson(Baselines.findById(baseline))
-      val v = Json.toJson(Votes.findById(vote))
-      val values = Json.toJson(BaseValues.findByBaseline(baseline))
-      val deltas = Json.toJson(VoteValues.findByVote(vote))
-
-      val data = Json.arr(b, v, values, deltas)
-      Ok(data)
-    }
-  }
-
-  def postVote = Action(BodyParsers.parse.json) { implicit request =>
-    DB.withSession { implicit connection =>
-
-      val result = request.body.validate[Vote]
-      result.fold(
-        errors => {
-          BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
-        },
-        vote => {
-          Votes.insert(vote)
-          Ok(Json.obj("status" -> "OK", "message" -> "Vote saved."))
-        }
-      )
-    }
-  }
-
-  def postDeltas = Action(BodyParsers.parse.json) { implicit request =>
-    DB.withSession { implicit connection =>
-
-      val result = request.body.validate[Array[VoteValue]]
-      result.fold(
-        errors => {
-          BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
-        },
-        votevalues => {
-          votevalues.foreach(VoteValues.insert)
-          Ok(Json.obj("status" -> "OK", "message" -> (votevalues.length + " votevalues saved.")))
-        }
-      )
-    }
-  }
 
 }

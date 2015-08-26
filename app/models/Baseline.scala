@@ -17,24 +17,24 @@ class BaselineTable(tag: Tag) extends Table[Baseline](tag, "BASELINE") {
 object Baselines extends DAO {
 
   def findById(id: Long)(implicit session: Session): Option[Baseline] =
-    Baselines.filter(_.id === id).firstOption
+    Baselines
+      .filter(_.id === id)
+      .firstOption
   
   def findByName(name: String)(implicit session: Session): List[Baseline] =
-    Baselines.filter(_.name === name).list
+    Baselines
+      .filter(_.name === name)
+      .list
 
   def listAll(implicit session: Session): List[Baseline] =
     Baselines.list
 
   def listCount(count: Int)(implicit session: Session): List[Baseline] =
-    Baselines.list.take(count)
+    Baselines
+      .list
+      .take(count)
 
   def insert(a: Baseline)(implicit session: Session): Long =
     (Baselines returning Baselines.map(_.id)) += a
 
-  /**
-  def findTasks(id: Long)(implicit session: Session): List[Task] =
-    Tasks
-      .filter(_.project === id)
-      .list
-    */
 }

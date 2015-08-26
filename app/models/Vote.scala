@@ -19,35 +19,42 @@ class VoteTable(tag: Tag) extends Table[Vote](tag, "VOTE") {
 object Votes extends DAO {
 
   def findById(id: Long)(implicit session: Session): Option[Vote] =
-    Votes.filter(_.id === id).firstOption
+    Votes
+      .filter(_.id === id)
+      .firstOption
 
   def findByBaselineAndUser(baseline: Long, user: Long)(implicit session: Session): Option[Vote] =
-    Votes.filter(_.baseline === baseline).filter(_.user === user).firstOption
+    Votes
+      .filter(_.baseline === baseline)
+      .filter(_.user === user)
+      .firstOption
 
   def findByBaseline(baseline: Long)(implicit session: Session): List[Vote] =
-    Votes.filter(_.baseline === baseline).list
+    Votes
+      .filter(_.baseline === baseline)
+      .list
 
   def findByUser(user: Long)(implicit  session: Session): List[Vote] =
-    Votes.filter(_.user === user).list
+    Votes
+      .filter(_.user === user)
+      .list
 
   def listAll(implicit session: Session): List[Vote] =
     Votes.list
 
   def listCount(count: Int)(implicit session: Session): List[Vote] =
-    Votes.list.take(count)
+    Votes
+      .list
+      .take(count)
 
   //forces timestamp to be current
   def insert(a: Vote)(implicit session: Session): Long =
     (Votes returning Votes.map(_.id)) += Vote(a.id, a.baseline, a.user, new DateTime())
 
-  def update(id: Long)(implicit session: Session): Int =
-    Votes.filter(_.id === id).map(_.timestamp).update(new DateTime()) //TODO returning Vote.map(_.id))?
-
-  /**
-  def findTasks(id: Long)(implicit session: Session): List[Task] =
-    Tasks
-      .filter(_.project === id)
-      .list
-    */
+  def refreshTimestamp(id: Long)(implicit session: Session): Int =
+    Votes
+      .filter(_.id === id)
+      .map(_.timestamp)
+      .update(new DateTime()) //TODO returning Vote.map(_.id))?
 
 }

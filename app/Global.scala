@@ -8,8 +8,6 @@ import play.api.Play.current
 object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
-
-    
     InitialData.insert()
   }
 
@@ -25,20 +23,6 @@ object InitialData {
 
   def insert() {
     DB.withSession { implicit s: Session =>
-      if (Tasks.count == 0) {
-        val aid = Projects.insert(Project(99, "first"))
-        val aid2 = Projects.insert(Project(99, "second"))
-        Projects.insert(Project(99, "third"))
-   
-        Seq(
-          Task(99, "blue", aid),
-          Task(99, "red", aid),
-          Task(99, "green", aid),
-          Task(99, "white", aid2),
-          Task(99, "black", aid2)).foreach(Tasks.insert)
-
-
-      }
 
       if (Baselines.listAll.isEmpty && BaseValues.listAll.isEmpty && Users.listAll.isEmpty && Votes.listAll.isEmpty && VoteValues.listAll.isEmpty) {
         val base1 = Baselines.insert(Baseline(99, "aut", 1000, "Minions ipsum aute jeje daa occaecat wiiiii bappleees. Voluptate reprehenderit tatata bala tu ex bananaaaa poopayee ullamco poopayee sit amet occaecat ullamco. Dolore la bodaaa aliquip tatata bala tu. Esse ut qui sed magna bappleees veniam elit ex reprehenderit pepete. Dolor esse daa hahaha. Jeje incididunt aliquip veniam bappleees voluptate gelatooo daa consequat adipisicing. Consectetur wiiiii chasy eiusmod gelatooo tank yuuu! Hahaha qui tank yuuu! Ullamco commodo ad aliqua ex nostrud occaecat aute uuuhhh."))

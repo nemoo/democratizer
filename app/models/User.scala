@@ -15,28 +15,30 @@ class UserTable(tag: Tag) extends Table[User](tag, "USER") {
 object Users extends DAO {
 
   def findById(id: Long)(implicit session: Session): Option[User] =
-    Users.filter(_.id === id).firstOption
+    Users
+      .filter(_.id === id)
+      .firstOption
 
   def findByProfile(profile: String)(implicit session: Session): Option[User] =
-    Users.filter(_.profile === profile).firstOption
+    Users
+      .filter(_.profile === profile)
+      .firstOption
 
   def listAll(implicit session: Session): List[User] =
     Users.list
 
   def listCount(count: Int)(implicit session: Session): List[User] =
-    Users.list.take(count)
+    Users
+      .list
+      .take(count)
 
   def insert(a: User)(implicit session: Session): Long =
     (Users returning Users.map(_.id)) += a
 
   def anonymize(id: Long)(implicit session: Session): Int =
-    Users.filter(_.id === id).map(_.profile).update("anonymous") //TODO --> refactor to None? ////TODO returning Users.map(_.id))?
-
-  /**
-  def findTasks(id: Long)(implicit session: Session): List[Task] =
-    Tasks
-      .filter(_.project === id)
-      .list
-    */
+    Users
+      .filter(_.id === id)
+      .map(_.profile)
+      .update("anonymous") //TODO --> refactor to None? ////TODO returning Users.map(_.id))?
 
 }

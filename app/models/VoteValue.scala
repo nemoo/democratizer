@@ -17,39 +17,46 @@ class VoteValueTable(tag: Tag) extends Table[VoteValue](tag, "VOTEVALUE") {
 object VoteValues extends DAO {
 
   def findById(id: Long)(implicit session: Session): Option[VoteValue] =
-    VoteValues.filter(_.id === id).firstOption
+    VoteValues
+      .filter(_.id === id)
+      .firstOption
 
   def findByBaseValueAndVote(basevalue: Long, vote: Long)(implicit session: Session): Option[VoteValue] =
-    VoteValues.filter(_.vote === vote).filter(_.basevalue === basevalue).firstOption
+    VoteValues
+      .filter(_.vote === vote)
+      .filter(_.basevalue === basevalue)
+      .firstOption
 
   def findByBaseValue(basevalue: Long)(implicit session: Session): List[VoteValue] =
-    VoteValues.filter(_.basevalue === basevalue).list
+    VoteValues
+      .filter(_.basevalue === basevalue)
+      .list
 
   def findByVote(vote: Long)(implicit session: Session): List[VoteValue] =
-    VoteValues.filter(_.vote === vote).list
+    VoteValues
+      .filter(_.vote === vote)
+      .list
 
   def listAll(implicit session: Session): List[VoteValue] =
     VoteValues.list
 
   def listCount(count: Int)(implicit session: Session): List[VoteValue] =
-    VoteValues.list.take(count)
+    VoteValues
+      .list
+      .take(count)
 
   def insert(a: VoteValue)(implicit session: Session): Long =
     (VoteValues returning VoteValues.map(_.id)) += a
 
   def update(id: Long, newDelta: Int)(implicit session: Session): Int =
-    VoteValues.filter(_.id === id).map(_.delta).update(newDelta) //TODO returning VoteValues.map(_.id))?
+    VoteValues
+      .filter(_.id === id)
+      .map(_.delta)
+      .update(newDelta) //TODO returning VoteValues.map(_.id))?
 
   def getAverage(basevalue: Long)(implicit session: Session): Int = {
     val deltas = findByBaseValue(basevalue).map(v => v.delta)
     if(deltas.nonEmpty) deltas.sum / deltas.length else 0
   }
 
-
-  /**
-  def findTasks(id: Long)(implicit session: Session): List[Task] =
-    Tasks
-      .filter(_.project === id)
-      .list
-    */
 }

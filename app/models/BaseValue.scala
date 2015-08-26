@@ -18,24 +18,24 @@ class BaseValueTable(tag: Tag) extends Table[BaseValue](tag, "BASEVALUE") {
 object BaseValues extends DAO {
 
   def findById(id: Long)(implicit session: Session): Option[BaseValue] =
-    BaseValues.filter(_.id === id).firstOption
+    BaseValues
+      .filter(_.id === id)
+      .firstOption
 
   def findByBaseline(baseline: Long)(implicit session: Session): List[BaseValue] =
-    BaseValues.filter(_.baseline === baseline).list
+    BaseValues
+      .filter(_.baseline === baseline)
+      .list
 
   def listAll(implicit session: Session): List[BaseValue] =
     BaseValues.list
 
   def listCount(count: Int)(implicit session: Session): List[BaseValue] =
-    BaseValues.list.take(count)
+    BaseValues
+      .list
+      .take(count)
 
   def insert(a: BaseValue)(implicit session: Session): Long =
     (BaseValues returning BaseValues.map(_.id)) += a
 
-  /**
-  def findTasks(id: Long)(implicit session: Session): List[Task] =
-    Tasks
-      .filter(_.project === id)
-      .list
-    */
 }
