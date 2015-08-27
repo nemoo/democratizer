@@ -8,6 +8,7 @@ injectTapEventPlugin();
 
 var React = require('react'),
     mui = require('material-ui'),
+    $ = require('jquery'),
     ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
     CardHeader = mui.CardHeader,
@@ -24,24 +25,55 @@ var HelloMessage = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
+  
+  getInitialState: function() {
+      return {
+          baselines: []
+      }
+  },
+  componentDidMount: function() {
+      $.ajax({
+          url: this.props.url,
+          dataType: 'json',
+          cache: false,
+          success: function(data) {
+              this.setState({baselines: data});
+          }.bind(this),
+          error: function(xhr, status, err) {
+              console.error(this.props.url, status, err.toString());
+          }.bind(this)
+      });
+  },  
 
   render: function() {
-    return (
-        <Card initiallyExpanded={true}>
-          <CardHeader
-              title="Title"
-              subtitle="Subtitle"
-              showExpandableButton={true}>
-          </CardHeader>
-          <CardText expandable={true}>
-              Minions ipsum belloo! Poulet tikka masala pepete chasy chasy belloo! Gelatooo bappleees po kass. Uuuhhh poopayee underweaaar belloo! Bananaaaa tatata bala tu underweaaar. Chasy jeje tatata bala tu ti aamoo! Baboiii me want bananaaa! Hana dul sae belloo! Hana dul sae me want bananaaa! Wiiiii jeje belloo! Tulaliloo jiji. Bappleees la bodaaa jiji bee do bee do bee do tulaliloo para tú. Poopayee chasy jeje bananaaaa potatoooo tatata bala tu chasy. Jiji chasy bappleees bananaaaa belloo! Butt la bodaaa wiiiii wiiiii la bodaaa tank yuuu! Tatata bala tu chasy uuuhhh la bodaaa.
-          </CardText>
-        </Card>
-    );
+      return (
+          <div>{this.state.baselines.map(function(baseline) {
+              return (
+                  <Baseline key={baseline.id} data={baseline} />
+              );
+          })}</div>
+      );
   }
 });
 
-React.render(<HelloMessage name="user" />,
+var Baseline = React.createClass({	
+  render: function() {
+    return (
+          <Card initiallyExpanded={true}>
+            <CardHeader
+                title={this.props.data.name}
+                subtitle="Subtitle"
+                showExpandableButton={true}>
+            </CardHeader>
+            <CardText expandable={true}>
+                {this.props.data.description}
+            </CardText>
+          </Card>     
+    );
+  }  
+});  
+
+React.render(<HelloMessage url="overview/1" />,
 	document.getElementById('app'));
 
 module.exports = HelloMessage;

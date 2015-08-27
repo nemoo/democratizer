@@ -90,11 +90,12 @@ object REST extends Controller {
     DB.withSession { implicit connection =>
 
       if (Users.findById(user).isDefined) {
-        val data: List[OverviewItem] = Baselines.listAll.map(baseline => OverviewItem(
-          baseline.id,
-          baseline.name,
-          baseline.description,
-          Votes.findByBaselineAndUser(baseline.id, user).isDefined))
+        val data: List[OverviewItem] = Baselines.listAll.map( baseline => 
+          OverviewItem(
+            baseline.id,
+            baseline.name,
+            baseline.description,
+            Votes.findByBaselineAndUser(baseline.id, user).isDefined))
 
         Ok(Json.toJson(data))
 
