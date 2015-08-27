@@ -16,3 +16,5 @@ bin
 /RUNNING_PID
 /.settings
 /.target
+/node_modules
+/public/js/Bundle.js

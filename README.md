@@ -17,4 +17,4 @@ Getting started
 
 5. Run `activator ~run` for automatic recompilation on file change of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
     
-Done: http://localhost:9000/
+Done: [http://localhost:9000/](http://localhost:9000/)
