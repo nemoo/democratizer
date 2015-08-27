@@ -1,6 +1,6 @@
 
 
-GET         /ui                                 controllers.Application.ui
+GET         /                                 controllers.Application.ui
 
 POST        /savebaseline                       controllers.REST.postBaseline
 POST        /savebasevalues                     controllers.REST.postBaseValues

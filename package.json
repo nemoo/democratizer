@@ -1,0 +1,34 @@
+{
+  "name": "democratizer",
+  "version": "1.0.0",
+  "description": "Improve nations of the world through educated discussion about how to distribute funds between various government functions.",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "jsx-loader": "^0.13.2",
+    "material-ui": "^0.11.0",
+    "react": "^0.13.3",
+    "react-tap-event-plugin": "^0.1.7",
+    "webpack": "^1.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nemoo/democratizer.git"
+  },
+  "keywords": [
+    "democratization"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nemoo/democratizer/issues"
+  },
+  "homepage": "https://github.com/nemoo/democratizer"
+}

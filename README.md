@@ -11,13 +11,10 @@ Getting started
 
 2. Install [node.js](https://nodejs.org/)
 
-3. Run `activator ui` for Linux and Mac (or `activator.bat` for Windows), choose "Open existing app" and navigate to the location you chose before and go to [https://www.typesafe.com/activator/docs](https://www.typesafe.com/activator/docs) if you need further instructions.  
+3. Install dependencies: `npm install`
+
+4. Run `webpack --watch` for automatic recompilation on file change of the client app. 
+
+5. Run `activator ~run` for automatic recompilation on file change of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
     
-4. Install the following npm packages and, afterwards, check if the packages react and react-tap-event-plugin have been installed automatically.
-```
-npm install webpack --save-dev
-npm install jsx-loader --save-dev
-npm install material-ui --save-dev
-npm install jquery --save-dev
-```
-5. In order to transform the source jsx files and generate a bundled js file run `./node_modules/webpack/bin/webpack.js`. (Alternatively, you can install webpack in global mode using `npm install webpack -g` and simple run `webpack` in your root folder.) Also, you might want to use `webpack --watch` for automatic recompilation on change detection.
+Done: http://localhost:9000/
