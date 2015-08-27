@@ -13,8 +13,8 @@ Getting started
 
 3. Install dependencies: `npm install`
 
-4. Run `webpack --watch` for automatic recompilation on file change of the client app. 
+4. Run `webpack --watch` for automatic recompilation of the client app. 
 
-5. Run `activator ~run` for automatic recompilation on file change of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
+5. Run `activator ~run` for automatic recompilation of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
     
 Done: [http://localhost:9000/](http://localhost:9000/)
