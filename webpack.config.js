@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./app/assets/js/Hello.jsx",
+    entry: "./app/assets/js/App.jsx",
 
     output: {
         path: "./public/js",
@@ -10,7 +10,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx$/,
-                loader: 'jsx-loader',
+                loader: 'babel',
                 exclude: /node_modules/
             }
         ]
