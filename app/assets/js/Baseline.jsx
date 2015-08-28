@@ -1,13 +1,14 @@
 
-const React = require('react'),
-    mui = require('material-ui'),
-    ThemeManager = new mui.Styles.ThemeManager(),
+import React from "react";
+import mui from "material-ui";
+
+const ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
     CardHeader = mui.CardHeader,
     CardText = mui.CardText;
 
 const Baseline = React.createClass({	
-  render: function() {    
+  render() {    
     return (
           <Card initiallyExpanded={true}>
             <CardHeader
