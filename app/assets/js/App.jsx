@@ -14,7 +14,8 @@ import Baseline from "./Baseline.jsx";
 const ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
     CardHeader = mui.CardHeader,
-    CardText = mui.CardText;
+    CardText = mui.CardText,
+    AppBar = mui.AppBar;
 
 
 var App = React.createClass({
@@ -49,11 +50,16 @@ var App = React.createClass({
 
   render() {
       return (
-          <div>{this.state.baselines.map(function(baseline) {
+          <div>
+            <AppBar
+              title="Democratizer"
+              iconClassNameRight="muidocs-icon-navigation-expand-more" />
+            {this.state.baselines.map(function(baseline) {
               return (
                   <Baseline key={baseline.id} data={baseline} />
               );
-          })}</div>
+            })}
+          </div>
       );
   }
 });

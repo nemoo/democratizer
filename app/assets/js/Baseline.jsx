@@ -5,7 +5,8 @@ import mui from "material-ui";
 const ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
     CardHeader = mui.CardHeader,
-    CardText = mui.CardText;
+    CardText = mui.CardText,
+    FlatButton = mui.FlatButton;
 
 const Baseline = React.createClass({	
   render() {    
@@ -18,7 +19,9 @@ const Baseline = React.createClass({
             </CardHeader>
             <CardText expandable={true}>
                 {this.props.data.description}
-            </CardText>
+                <br/>
+                <FlatButton label="Democratize now!" primary={true} />
+            </CardText>            
           </Card>     
     );
   }  
