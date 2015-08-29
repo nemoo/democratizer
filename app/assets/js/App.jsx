@@ -1,70 +1,48 @@
-var injectTapEventPlugin = require("react-tap-event-plugin");
-
 //Needed for onTouchTap
 //Can go away when react 1.0 release
 //Check this repo:
 //https://github.com/zilverline/react-tap-event-plugin
+import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
 import React from "react";
 import mui from "material-ui";
-import $ from "jquery";
-import Baseline from "./Baseline.jsx";
+import Page from "./Page.jsx";
 
 const ThemeManager = new mui.Styles.ThemeManager(),
-    Card = mui.Card,
-    CardHeader = mui.CardHeader,
-    CardText = mui.CardText,
     AppBar = mui.AppBar;
 
-
-var App = React.createClass({
+const App = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
-
   getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
-  
   getInitialState() {
-      return {
-          baselines: []
-      }
+    return {
+        pagename: "overview"
+    };
   },
-  componentDidMount() {
-      $.ajax({
-          url: this.props.url,
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-              this.setState({baselines: data});
-          }.bind(this),
-          error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
-          }.bind(this)
-      });
-  },  
-
+  handleTransition(page) {
+    this.setState({pagename: page});
+  },
   render() {
       return (
           <div>
             <AppBar
               title="Democratizer"
               iconClassNameRight="muidocs-icon-navigation-expand-more" />
-            {this.state.baselines.map(function(baseline) {
-              return (
-                  <Baseline key={baseline.id} data={baseline} />
-              );
-            })}
+              <br/>
+            <Page name={this.state.pagename} onVotebutton={this.handleTransition} />
           </div>
       );
   }
 });
 
-React.render(<App url="overview/1" />,
+React.render(<App />,
 	document.getElementById('app'));
 
 module.exports = App;

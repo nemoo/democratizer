@@ -4,25 +4,29 @@ import mui from "material-ui";
 
 const ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
-    CardHeader = mui.CardHeader,
+    CardTitle = mui.CardTitle,
     CardText = mui.CardText,
-    FlatButton = mui.FlatButton;
+    RaisedButton = mui.RaisedButton;
 
-const Baseline = React.createClass({	
+const Baseline = React.createClass({
+  handleVotebutton(page) {
+    this.props.onVotebutton(page);
+  },
   render() {    
     return (
-          <Card initiallyExpanded={true}>
-            <CardHeader
+        <div><br/>
+          <Card initiallyExpanded={false}>
+            <CardTitle
                 title={this.props.data.name}
-                subtitle="Subtitle"
                 showExpandableButton={true}>
-            </CardHeader>
+                <br/>
+                <RaisedButton label="Democratize now!" primary={true} onClick={this.handleVotebutton.bind(this, "voteview")} />
+            </CardTitle>
             <CardText expandable={true}>
                 {this.props.data.description}
-                <br/>
-                <FlatButton label="Democratize now!" primary={true} />
-            </CardText>            
-          </Card>     
+            </CardText>
+          </Card>
+        </div>
     );
   }  
 });  
