@@ -112,19 +112,28 @@ object REST extends Controller {
       val vote = Votes.findByBaselineAndUser(baseline, user)
 
       if (Users.findById(user).isDefined && base.isDefined) {
-        val data: Voteview = Voteview(
-          base.get.name,
-          base.get.revenue,
-          BaseValues.findByBaseline(baseline).map(basevalue => Bar(
-            basevalue.category,
+
+        val bars = BaseValues.findByBaseline(baseline).map{ basevalue =>
+
+          val delta = vote match {
+            case Some(vote) =>
+              val potentialVoteValue = VoteValues.findByBaseValueAndVote(basevalue.id, vote.id)
+              potentialVoteValue.map(_.delta)
+            case None          => None
+          }
+
+          Bar(basevalue.category,
             basevalue.description,
             basevalue.value,
             VoteValues.getAverage(basevalue.id),
-            vote match {
-              case some: Some[Vote] => VoteValues.findByBaseValueAndVote (basevalue.id, vote.get.id).get.delta //TODO "exception"?
-              case _          => 0
-            }
-          )))
+            delta)
+        }
+
+        val data: Voteview = Voteview(
+          base.get.name,
+          base.get.revenue,
+          bars)
+
         Ok(Json.toJson(data))
 
       } else {
