@@ -115,11 +115,12 @@ object InitialData {
         val rawData: List[(String, Int)] = result.map{list =>
           list match {
             case List(_,category: String,_,_,_,lastyear: String) =>
-              val amount = lastyear.trim
+              val amountMio = lastyear.trim
                 .replace("-","0")
                 .replace(".","")
                 .toInt
-              (category, amount)
+
+              (category, amountMio * 1000000)
             case _ => ("none", 0)
           }
         }
