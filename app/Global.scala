@@ -27,8 +27,7 @@ object InitialData {
       if (Baselines.listAll.isEmpty && BaseValues.listAll.isEmpty && Users.listAll.isEmpty && Votes.listAll.isEmpty && VoteValues.listAll.isEmpty) {
 
         val result =
-          """
-1	ALLGEMEINE ÖFFENTLICHE VERWALTUNG	22.703	22.963	23.34	22.652
+"""1	ALLGEMEINE ÖFFENTLICHE VERWALTUNG	22.703	22.963	23.34	22.652
 1.1	Oberste Regierungs- und Verwaltungsstellen und gesetzgebende Organe, Finanz- und Steuerverwaltung, auswärtige Angelegenheiten	7.367	7.662	8.143	7.544
 1.2	Wirtschaftshilfe für das Ausland	389	420	457	474
 1.3	Allgemeine Dienste	3.871	3.844	3.858	3.955
@@ -106,8 +105,7 @@ object InitialData {
 10.6	Wohnraum	262	235	213	206
 10.7	Soziale Hilfe, a.n.g.	2.437	2.654	2.772	2.95
 10.8	Angewandte Forschung und experimentelle Entwicklung im Bereich Soziale Sicherung	39	40	40	41
-10.9	Soziale Sicherung, a.n.g.	654	605	599	605
-          """.split('\n')
+10.9	Soziale Sicherung, a.n.g.	654	605	599	605""".split('\n')
           .toList
           .map{string =>
             string.split("\t").toList}
@@ -115,18 +113,18 @@ object InitialData {
         val rawData: List[(String, Int)] = result.map{list =>
           list match {
             case List(_,category: String,_,_,_,lastyear: String) =>
-              val amountMio = lastyear.trim
+              val amount = lastyear.trim
                 .replace("-","0")
                 .replace(".","")
                 .toInt
 
-              (category, amountMio * 1000000)
+              (category, amount)
             case _ => ("none", 0)
           }
         }
 
 
-        val base1 = Baselines.insert(Baseline(0, "Staatsausgaben Österreich 2014", 171936000, ""))
+        val base1 = Baselines.insert(Baseline(0, "Staatsausgaben Österreich 2014", 171936, ""))
         rawData.foreach{x =>
           BaseValues.insert(BaseValue(0,base1,x._1,x._2,""))}
 

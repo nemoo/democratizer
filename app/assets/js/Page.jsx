@@ -1,5 +1,6 @@
 import React from "react";
 import Overview from "./Overview.jsx";
+import VoteView from "./voteview/VoteView.jsx";
 
 const Page = React.createClass({
     render() {
@@ -10,9 +11,7 @@ const Page = React.createClass({
                     :null}
 
                 {this.props.name === "voteview" ?
-                    <div>
-                        <img src="http://i.giphy.com/b21HcSrrBu8pi.gif" />
-                    </div>
+                    <VoteView />
                     :null}
             </div>
         );

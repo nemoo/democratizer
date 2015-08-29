@@ -23,7 +23,7 @@ const App = React.createClass({
   },
   getInitialState() {
     return {
-        pagename: "overview"
+        pagename: "voteview"
     };
   },
   handleTransition(page) {

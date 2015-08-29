@@ -2,7 +2,7 @@ package models
 
 import play.api.db.slick.Config.driver.simple._
 
-case class BaseValue(id: Long, baseline: Long, category: String, value: Int, description: String)
+case class BaseValue(id: Long, baseline: Long, category: String, value: Long, description: String)
 
 class BaseValueTable(tag: Tag) extends Table[BaseValue](tag, "BASEVALUE") {
   def * = (id, baseline, category, value, description) <> (BaseValue.tupled, BaseValue.unapply)
@@ -11,7 +11,7 @@ class BaseValueTable(tag: Tag) extends Table[BaseValue](tag, "BASEVALUE") {
   val id: Column[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
   val baseline: Column[Long] = column[Long]("BASELINE")
   val category: Column[String] = column[String]("CATEGORY")
-  val value: Column[Int] = column[Int]("VALUE")
+  val value: Column[Long] = column[Long]("VALUE")
   val description: Column[String] = column[String]("DESCRIPTION")
 }
 
