@@ -13,9 +13,6 @@ const Navigation = Router.Navigation;
 
 const Baseline = React.createClass({
   mixins: [Navigation],  
-  handleVotebutton(baselineId) {
-    this.transitionTo("voteview",{baselineId: baselineId});
-  },
   render() {    
     return (
         <div><br/>
@@ -24,11 +21,10 @@ const Baseline = React.createClass({
                 title={this.props.data.name}
                 showExpandableButton={true}>
                 <br/>
-
               <RaisedButton 
                 label="Democratize now!" 
                 primary={true} 
-                onClick={()=>this.handleVotebutton(this.props.data.id)}
+                onClick={()=>this.transitionTo("voteview",{baselineId: this.props.data.id})}
               />
             </CardTitle>
             <CardText expandable={true}>
