@@ -9,10 +9,12 @@ const CardTitle = mui.CardTitle;
 const CardText = mui.CardText;
 const RaisedButton = mui.RaisedButton;
 const Link = Router.Link;
+const Navigation = Router.Navigation;
 
 const Baseline = React.createClass({
-  handleVotebutton(page) {
-    this.props.onVotebutton(page);
+  mixins: [Navigation],  
+  handleVotebutton(baselineId) {
+    this.transitionTo("voteview",{baselineId: baselineId});
   },
   render() {    
     return (
@@ -23,16 +25,11 @@ const Baseline = React.createClass({
                 showExpandableButton={true}>
                 <br/>
 
-              
-              <Link 
-                to="voteview" 
-                params={{baselineId: this.props.data.id}}
-              >
-                <RaisedButton 
-                  label="Democratize now!" 
-                  primary={true} 
-                />
-              </Link>
+              <RaisedButton 
+                label="Democratize now!" 
+                primary={true} 
+                onClick={()=>this.handleVotebutton(this.props.data.id)}
+              />
             </CardTitle>
             <CardText expandable={true}>
                 {this.props.data.description}
