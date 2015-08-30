@@ -9,8 +9,8 @@ GET         /user/:profile                      controllers.REST.getUser(profile
 POST        /saveuser                           controllers.REST.postUser
 POST        /anonymizeuser/:user                controllers.REST.anonymizeUser(user: Long)
 
-GET         /overview/:user                     controllers.REST.getOverview(user: Long)
-GET         /voteview/:user/:baseline           controllers.REST.getVoteview(user: Long, baseline: Long)
+GET         /overview                           controllers.REST.getOverview
+GET         /voteview/:baseline                 controllers.REST.getVoteview(baseline: Long)
 POST        /submit                             controllers.REST.postSubmission
 
 

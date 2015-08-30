@@ -7,10 +7,17 @@ injectTapEventPlugin();
 
 import React from "react";
 import mui from "material-ui";
-import Page from "./Page.jsx";
+import Router from "react-router";
+import VoteView from "./voteview/VoteView.jsx";
+import OverView from "./overview/OverView.jsx";
 
-const ThemeManager = new mui.Styles.ThemeManager(),
-    AppBar = mui.AppBar;
+const ThemeManager = new mui.Styles.ThemeManager();
+const AppBar = mui.AppBar;
+const RouteHandler = Router.RouteHandler;
+const Route = Router.Route;
+const Link = Router.Link;
+const DefaultRoute = Router.DefaultRoute;
+    
 
 const App = React.createClass({
   childContextTypes: {
@@ -21,14 +28,6 @@ const App = React.createClass({
       muiTheme: ThemeManager.getCurrentTheme()
     };
   },
-  getInitialState() {
-    return {
-        pagename: "voteview"
-    };
-  },
-  handleTransition(page) {
-    this.setState({pagename: page});
-  },
   render() {
       return (
           <div>
@@ -36,13 +35,22 @@ const App = React.createClass({
               title="Democratizer"
               iconClassNameRight="muidocs-icon-navigation-expand-more" />
               <br/>
-            <Page name={this.state.pagename} onVotebutton={this.handleTransition} />
+            <Link to="app">Overview</Link>              
+            <RouteHandler />
           </div>
       );
   }
 });
 
-React.render(<App />,
-	document.getElementById('app'));
+var routes = (
+  <Route name="app" path="/" handler={App}>
+    <Route name="voteview" path="voteview/:baselineId" handler={VoteView}/>
+    <DefaultRoute handler={OverView}/>
+  </Route>
+);
+
+Router.run(routes, function (Handler) {
+  React.render(<Handler/>, document.getElementById('app'));
+});
 
 module.exports = App;

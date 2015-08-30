@@ -1,12 +1,14 @@
 
 import React from "react";
 import mui from "material-ui";
+import Router from "react-router";
 
-const ThemeManager = new mui.Styles.ThemeManager(),
-    Card = mui.Card,
-    CardTitle = mui.CardTitle,
-    CardText = mui.CardText,
-    RaisedButton = mui.RaisedButton;
+const ThemeManager = new mui.Styles.ThemeManager();
+const Card = mui.Card;
+const CardTitle = mui.CardTitle;
+const CardText = mui.CardText;
+const RaisedButton = mui.RaisedButton;
+const Link = Router.Link;
 
 const Baseline = React.createClass({
   handleVotebutton(page) {
@@ -20,7 +22,12 @@ const Baseline = React.createClass({
                 title={this.props.data.name}
                 showExpandableButton={true}>
                 <br/>
-                <RaisedButton label="Democratize now!" primary={true} onClick={this.handleVotebutton.bind(this, "voteview")} />
+                <RaisedButton 
+                  label="Democratize now!" 
+                  primary={true} 
+                  onClick={this.handleVotebutton.bind(this, "voteview")} 
+                />
+              <Link to="voteview" params={{baselineId: this.props.data.id}}>Democratize now</Link>
             </CardTitle>
             <CardText expandable={true}>
                 {this.props.data.description}

@@ -5,6 +5,9 @@ import Summary from "./Summary.jsx"
 import Categories from "./Categories.jsx"
 
 const VoteView = React.createClass({
+    contextTypes: {
+      router: React.PropTypes.func
+    },  
     getInitialState() {
         return {  
         bars: []
@@ -12,7 +15,7 @@ const VoteView = React.createClass({
     },
     componentDidMount() {
         $.ajax({
-            url: "voteview/1/1",
+            url: "voteview/" + this.context.router.getCurrentParams().baselineId,
             dataType: 'json',
             cache: false,
             success: function(data) {

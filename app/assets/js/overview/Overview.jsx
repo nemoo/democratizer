@@ -11,7 +11,7 @@ const Overview = React.createClass({
     },
     componentDidMount() {
         $.ajax({
-            url: this.props.url,
+            url: "/overview",
             dataType: 'json',
             cache: false,
             success: function(data) {

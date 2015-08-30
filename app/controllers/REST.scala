@@ -86,16 +86,18 @@ object REST extends Controller {
     }
   }
 
-  def getOverview(user: Long) = Action { implicit rs =>
+  def getOverview = Action { implicit rs =>
     DB.withSession { implicit connection =>
 
-      if (Users.findById(user).isDefined) {
+      val userId = 1
+
+      if (Users.findById(userId).isDefined) {
         val data: List[OverviewItem] = Baselines.listAll.map( baseline => 
           OverviewItem(
             baseline.id,
             baseline.name,
             baseline.description,
-            Votes.findByBaselineAndUser(baseline.id, user).isDefined))
+            Votes.findByBaselineAndUser(baseline.id, userId).isDefined))
 
         Ok(Json.toJson(data))
 
@@ -105,13 +107,15 @@ object REST extends Controller {
     }
   }
 
-  def getVoteview(user: Long, baseline: Long) = Action { implicit rs =>
+  def getVoteview(baseline: Long) = Action { implicit rs =>
     DB.withSession { implicit connection =>
 
-      val base = Baselines.findById(baseline)
-      val vote = Votes.findByBaselineAndUser(baseline, user)
+      val userId = 1
 
-      if (Users.findById(user).isDefined && base.isDefined) {
+      val base = Baselines.findById(baseline)
+      val vote = Votes.findByBaselineAndUser(baseline, userId)
+
+      if (Users.findById(userId).isDefined && base.isDefined) {
 
         val bars = BaseValues.findByBaseline(baseline).map{ basevalue =>
 
