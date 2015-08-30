@@ -4,7 +4,7 @@ import play.api.libs.json._
 
 case class OverviewItem(id: Long, name: String, description: String, submitted: Boolean)
 
-case class Bar(category: String, description: String, basevalue: Long, averagevalue: Int, delta: Option[Int])
+case class Bar(category: String, description: String, basevalueId: Long, basevalue: Long, averagevalue: Int, delta: Option[Int], modified: Boolean)
 case class Voteview(name: String, revenue: Int, bars: List[Bar])
 
 case class Submission(user: Long, baseline: Long, basevalue: Long, delta: Int)

@@ -14,8 +14,8 @@ const Categories = React.createClass({
               <CardText>
                 {this.props.bars.map( bar => {
                   const percentage = bar.basevalue / 1000;
-                   return( 
-                   <div>
+                  return( 
+                   <div key={bar.basevalueId}>
                      <p>{bar.category} - {bar.basevalue} Mio. Euro</p>
                      <LinearProgress mode="determinate" value={percentage} />
                    </div>

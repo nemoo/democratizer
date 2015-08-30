@@ -124,9 +124,11 @@ object REST extends Controller {
 
           Bar(basevalue.category,
             basevalue.description,
+            basevalue.id,
             basevalue.value,
             VoteValues.getAverage(basevalue.id),
-            delta)
+            delta,
+            false)
         }
 
         val data: Voteview = Voteview(
