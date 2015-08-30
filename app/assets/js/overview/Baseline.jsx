@@ -22,12 +22,17 @@ const Baseline = React.createClass({
                 title={this.props.data.name}
                 showExpandableButton={true}>
                 <br/>
+
+              
+              <Link 
+                to="voteview" 
+                params={{baselineId: this.props.data.id}}
+              >
                 <RaisedButton 
                   label="Democratize now!" 
                   primary={true} 
-                  onClick={this.handleVotebutton.bind(this, "voteview")} 
                 />
-              <Link to="voteview" params={{baselineId: this.props.data.id}}>Democratize now</Link>
+              </Link>
             </CardTitle>
             <CardText expandable={true}>
                 {this.props.data.description}

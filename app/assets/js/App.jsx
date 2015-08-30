@@ -17,7 +17,6 @@ const RouteHandler = Router.RouteHandler;
 const Route = Router.Route;
 const Link = Router.Link;
 const DefaultRoute = Router.DefaultRoute;
-    
 
 const App = React.createClass({
   childContextTypes: {
@@ -30,12 +29,17 @@ const App = React.createClass({
   },
   render() {
       return (
-          <div>
-            <AppBar
-              title="Democratizer"
-              iconClassNameRight="muidocs-icon-navigation-expand-more" />
+          <div>  
+              <AppBar
+                title="Democratizer"
+                iconClassNameRight="muidocs-icon-navigation-expand-more" 
+              >
+                <Link to="app">
+                  HOME {}
+                </Link>  
+              </AppBar>  
               <br/>
-            <Link to="app">Overview</Link>              
+                        
             <RouteHandler />
           </div>
       );
