@@ -12,7 +12,7 @@ const Categories = React.createClass({
         return (
             <Card>
               <CardText>
-                {this.props.data.bars.map( bar => {
+                {this.props.bars.map( bar => {
                   const percentage = bar.basevalue / 1000;
                    return( 
                    <div>

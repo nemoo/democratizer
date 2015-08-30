@@ -1,5 +1,5 @@
 import React from "react";
-import Overview from "./Overview.jsx";
+import Overview from "./overview/Overview.jsx";
 import VoteView from "./voteview/VoteView.jsx";
 
 const Page = React.createClass({

@@ -10,11 +10,11 @@ const Summary = React.createClass({
     render() {
         return (
             <Card>
-              <CardTitle title={this.props.data.name} />
+              <CardTitle title={this.props.name} />
               <CardText>
-                Verfügbares Budget: {this.props.data.revenue} Mio. Euro
+                Verfügbares Budget: {this.props.revenue} Mio. Euro
                 <br/>
-                Ihr Vorschlag zu den Staatsausgaben: {this.props.data.revenue + 5000} Mio. Euro
+                Ihr Vorschlag zu den Staatsausgaben: {this.props.revenue + 5000} Mio. Euro
               </CardText>
             </Card>
         );

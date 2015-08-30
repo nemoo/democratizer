@@ -26,8 +26,8 @@ const VoteView = React.createClass({
     render() {
         return (
             <div>
-              <Summary data={this.state} />
-              <Categories data={this.state} />
+              <Summary {...this.state} />
+              <Categories {...this.state} />
             </div>            
         );
     }
