@@ -1,5 +1,6 @@
 import React from "react";
 import mui from "material-ui";
+import Bar from "./Bar.jsx";
 
 const ThemeManager = new mui.Styles.ThemeManager(),
     Card = mui.Card,
@@ -12,15 +13,13 @@ const Categories = React.createClass({
         return (
             <Card>
               <CardText>
-                {this.props.bars.map( bar => {
-                  const percentage = bar.basevalue / 1000;
-                  return( 
-                   <div key={bar.basevalueId}>
-                     <p>{bar.category} - {bar.basevalue} Mio. Euro</p>
-                     <LinearProgress mode="determinate" value={percentage} />
-                   </div>
-                 );
-                })} 
+                {
+                  this.props.bars.map( bar => {
+                    return (
+                      <Bar key={bar.basevalueId} onSetDelta={this.props.onSetDelta} {...bar}/>
+                      );
+                  })
+                }
               </CardText>
             </Card>
         );

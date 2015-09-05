@@ -110,23 +110,23 @@ object InitialData {
           .map{string =>
             string.split("\t").toList}
 
-        val rawData: List[(String, Int)] = result.map{list =>
+        val rawData: List[(String, String, Int)] = result.map{list =>
           list match {
-            case List(_,category: String,_,_,_,lastyear: String) =>
+            case List(index,category: String,_,_,_,lastyear: String) =>
               val amount = lastyear.trim
                 .replace("-","0")
                 .replace(".","")
                 .toInt
 
-              (category, amount)
-            case _ => ("none", 0)
+              (index, category, amount)
+            case _ => ("0","none", 0)
           }
-        }
+        }.filterNot(x => x._1.contains("."))
 
 
         val base1 = Baselines.insert(Baseline(0, "Staatsausgaben Österreich 2014", 171936, ""))
         rawData.foreach{x =>
-          BaseValues.insert(BaseValue(0,base1,x._1,x._2,""))}
+          BaseValues.insert(BaseValue(0,base1,x._2,x._3,""))}
 
         val base2 = Baselines.insert(Baseline(0, "Österreich 2001", 1000, "Minions ipsum hahaha bappleees chasy wiiiii jeje. Po kass bananaaaa para tú me want bananaaa! Poulet tikka masala tank yuuu! Me want bananaaa! baboiii chasy tatata bala tu wiiiii wiiiii jeje tatata bala tu. Para tú me want bananaaa! Para tú ti aamoo! Hana dul sae hahaha hana dul sae la bodaaa ti aamoo! Poulet tikka masala. Gelatooo gelatooo hana dul sae ti aamoo! Gelatooo tulaliloo jeje. Po kass underweaaar tank yuuu! Jeje. Underweaaar tank yuuu! Jiji belloo! Bee do bee do bee do tank yuuu! Belloo! Butt pepete. Pepete uuuhhh belloo! Bananaaaa poopayee uuuhhh. Uuuhhh wiiiii butt baboiii hahaha jeje poopayee ti aamoo! Tulaliloo la bodaaa. "))
 
@@ -136,12 +136,13 @@ object InitialData {
         val baseval3 = BaseValues.insert(BaseValue(0, base1, "Wirtschaft", 4000, "descrip"))
 
         val user1 = Users.insert(User(0,"googleplus.com"))
-        val vote1 = Votes.insert(Vote(0,base1,user1,new DateTime(2014,12,3,21,4)))
-
-        Seq(
-          VoteValue(0,baseval1,vote1,20),
-          VoteValue(0,baseval2,vote1,-200),
-          VoteValue(0,baseval3,vote1,-300)).foreach(VoteValues.insert)
+        
+        // val vote1 = Votes.insert(Vote(0,base1,user1,new DateTime(2014,12,3,21,4)))
+        // 
+        // Seq(
+        //   VoteValue(0,baseval1,vote1,20),
+        //   VoteValue(0,baseval2,vote1,-200),
+        //   VoteValue(0,baseval3,vote1,-300)).foreach(VoteValues.insert)
 
       }
     }

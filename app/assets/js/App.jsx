@@ -8,8 +8,8 @@ injectTapEventPlugin();
 import React from "react";
 import mui from "material-ui";
 import Router from "react-router";
-import VoteView from "./voteview/VoteView.jsx";
-import OverView from "./overview/OverView.jsx";
+import VoteView from "./voteview/Voteview.jsx";
+import OverView from "./overview/Overview.jsx";
 
 const ThemeManager = new mui.Styles.ThemeManager();
 const AppBar = mui.AppBar;
@@ -17,8 +17,10 @@ const RouteHandler = Router.RouteHandler;
 const Route = Router.Route;
 const Link = Router.Link;
 const DefaultRoute = Router.DefaultRoute;
+const Navigation = Router.Navigation;    
 
 const App = React.createClass({
+  mixins: [Navigation],
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -30,14 +32,13 @@ const App = React.createClass({
   render() {
       return (
           <div>  
-              <AppBar
-                title="Democratizer"
-                iconClassNameRight="muidocs-icon-navigation-expand-more" 
-              >
-                <Link to="app">
-                  HOME {}
-                </Link>  
-              </AppBar>  
+              <Link to="app">
+                <AppBar
+                  title="Democratizer"
+                  iconClassNameRight="muidocs-icon-navigation-expand-more" 
+                >
+                </AppBar> 
+              </Link>   
               <br/>
                         
             <RouteHandler />

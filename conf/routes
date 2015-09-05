@@ -11,7 +11,7 @@ POST        /anonymizeuser/:user                controllers.REST.anonymizeUser(u
 
 GET         /overview                           controllers.REST.getOverview
 GET         /voteview/:baseline                 controllers.REST.getVoteview(baseline: Long)
-POST        /submit                             controllers.REST.postSubmission
+POST        /submit                             controllers.REST.vote
 
 
 # Map static resources from the /public folder to the /assets URL path; using asset fingerprinting

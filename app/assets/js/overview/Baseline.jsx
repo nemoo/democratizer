@@ -24,7 +24,7 @@ const Baseline = React.createClass({
               <RaisedButton 
                 label="Democratize now!" 
                 primary={true} 
-                onClick={()=>this.transitionTo("voteview",{baselineId: this.props.data.id})}
+                onClick={()=>this.transitionTo("voteview",{baselineId: this.props.data.baselineId})}
               />
             </CardTitle>
             <CardText expandable={true}>

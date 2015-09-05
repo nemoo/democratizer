@@ -2,7 +2,7 @@ package models
 
 import play.api.db.slick.Config.driver.simple._
 
-case class VoteValue(id: Long, basevalue: Long, vote: Long, delta: Int)
+case class VoteValue(id: Long, basevalue: Long, vote: Long, delta: Long)
 
 class VoteValueTable(tag: Tag) extends Table[VoteValue](tag, "VOTEVALUE") {
   def * = (id, basevalue, vote, delta) <> (VoteValue.tupled, VoteValue.unapply)
@@ -11,7 +11,7 @@ class VoteValueTable(tag: Tag) extends Table[VoteValue](tag, "VOTEVALUE") {
   val id: Column[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
   val basevalue: Column[Long] = column[Long]("BASEVALUE")
   val vote: Column[Long] = column[Long]("VOTE")
-  val delta: Column[Int] = column[Int]("DELTA")
+  val delta: Column[Long] = column[Long]("DELTA")
 }
 
 object VoteValues extends DAO {
@@ -48,13 +48,13 @@ object VoteValues extends DAO {
   def insert(a: VoteValue)(implicit session: Session): Long =
     (VoteValues returning VoteValues.map(_.id)) += a
 
-  def update(id: Long, newDelta: Int)(implicit session: Session): Int =
+  def update(id: Long, newDelta: Long)(implicit session: Session): Int =
     VoteValues
       .filter(_.id === id)
       .map(_.delta)
       .update(newDelta) //TODO returning VoteValues.map(_.id))?
 
-  def getAverage(basevalue: Long)(implicit session: Session): Int = {
+  def getAverage(basevalue: Long)(implicit session: Session): Long = {
     val deltas = findByBaseValue(basevalue).map(v => v.delta)
     if(deltas.nonEmpty) deltas.sum / deltas.length else 0
   }

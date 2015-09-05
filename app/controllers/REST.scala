@@ -135,10 +135,13 @@ object REST extends Controller {
             false)
         }
 
-        val data: Voteview = Voteview(
-          base.get.name,
-          base.get.revenue,
-          bars)
+        val data: Voteview =
+          Voteview(
+            base.get.id,
+            base.get.name,
+            base.get.revenue,
+            bars
+          )
 
         Ok(Json.toJson(data))
 
@@ -148,31 +151,52 @@ object REST extends Controller {
     }
   }
 
-  def postSubmission() = Action(BodyParsers.parse.json) { implicit request =>
+  def vote() = Action(BodyParsers.parse.json) { implicit request =>
     DB.withSession { implicit connection =>
-
-      val result = request.body.validate[Array[Submission]]
+      val result = request.body.validate[Voteview]
       result.fold(
         errors => {
           BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
         },
         submission => {
 
-          val vote = Votes.findByBaselineAndUser(submission(0).baseline,submission(0).user)
+          val user = 1
+
+          val vote = Votes.findByBaselineAndUser(submission.baselineId, user)
+
           if (vote.isEmpty) {
-            submission.foreach(s => VoteValues.insert(VoteValue(
-              99,
-              s.basevalue,
-              Votes.insert(Vote(99, submission(0).baseline, submission(0).user, new DateTime())),
-              s.delta)))
+            submission.bars.foreach{bar =>
+
+              val voteId = Votes.insert(Vote(99, submission.baselineId, user, new DateTime()))
+
+              VoteValues.insert(
+                VoteValue(
+                  0,
+                  bar.basevalue,
+                  voteId,
+                  bar.delta.getOrElse(0)))
+            }
             Ok(Json.obj("status" -> "OK", "message" -> "Vote saved."))
 
           } else {
             Votes.refreshTimestamp(vote.get.id)
-            submission.foreach(s => VoteValues.update(
-              VoteValues.findByBaseValueAndVote(s.basevalue, vote.get.id).get.id, //TODO "exception"?
-              s.delta
-            ))
+            val votevalues = VoteValues.findByVote(vote.get.id)
+
+
+            submission.bars.foreach{s =>
+              votevalues.find(_.basevalue == s.basevalueId)
+                .map{ votevalue =>
+                  val newDelta = s.delta.getOrElse(0L)
+                  VoteValues.update(votevalue.id, newDelta)}
+                .getOrElse{
+                  val newDelta = s.delta.getOrElse(0L)
+                  VoteValues.insert(
+                    VoteValue(
+                      0,
+                      s.basevalueId,
+                      vote.get.id,
+                      newDelta))}
+            }
             Ok(Json.obj("status" -> "OK", "message" -> "Vote saved."))
           }
         }

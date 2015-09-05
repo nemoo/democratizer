@@ -26,9 +26,9 @@ const Overview = React.createClass({
         return (
             <div>{this.state.baselines.map(function(baseline) {
                 return (
-                    <Baseline key={baseline.id} data={baseline} onVotebutton={this.props.onVotebutton} />
+                    <Baseline key={baseline.id} data={baseline} />
                 );
-                }.bind(this))
+                })
             }</div>
         );
     }
