@@ -131,9 +131,9 @@ object InitialData {
         val base2 = Baselines.insert(Baseline(0, "Österreich 2001", 1000, "Minions ipsum hahaha bappleees chasy wiiiii jeje. Po kass bananaaaa para tú me want bananaaa! Poulet tikka masala tank yuuu! Me want bananaaa! baboiii chasy tatata bala tu wiiiii wiiiii jeje tatata bala tu. Para tú me want bananaaa! Para tú ti aamoo! Hana dul sae hahaha hana dul sae la bodaaa ti aamoo! Poulet tikka masala. Gelatooo gelatooo hana dul sae ti aamoo! Gelatooo tulaliloo jeje. Po kass underweaaar tank yuuu! Jeje. Underweaaar tank yuuu! Jiji belloo! Bee do bee do bee do tank yuuu! Belloo! Butt pepete. Pepete uuuhhh belloo! Bananaaaa poopayee uuuhhh. Uuuhhh wiiiii butt baboiii hahaha jeje poopayee ti aamoo! Tulaliloo la bodaaa. "))
 
 
-        val baseval1 = BaseValues.insert(BaseValue(0, base1, "Soziales", 500, "des"))
-        val baseval2 = BaseValues.insert(BaseValue(0, base1, "Rüstung", 300, "descr"))
-        val baseval3 = BaseValues.insert(BaseValue(0, base1, "Wirtschaft", 4000, "descrip"))
+        val baseval1 = BaseValues.insert(BaseValue(0, base2, "Soziales", 500, "des"))
+        val baseval2 = BaseValues.insert(BaseValue(0, base2, "Rüstung", 300, "descr"))
+        val baseval3 = BaseValues.insert(BaseValue(0, base2, "Wirtschaft", 4000, "descrip"))
 
         val user1 = Users.insert(User(0,"googleplus.com"))
         
