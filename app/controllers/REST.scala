@@ -172,7 +172,7 @@ object REST extends Controller {
               VoteValues.insert(
                 VoteValue(
                   0,
-                  bar.basevalue,
+                  bar.basevalueId,
                   voteId,
                   bar.delta.getOrElse(0)))
             }
@@ -181,7 +181,6 @@ object REST extends Controller {
           } else {
             Votes.refreshTimestamp(vote.get.id)
             val votevalues = VoteValues.findByVote(vote.get.id)
-
 
             submission.bars.foreach{s =>
               votevalues.find(_.basevalue == s.basevalueId)
