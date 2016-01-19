@@ -6,6 +6,11 @@ Improve nations of the world through educated discussion about how to distribute
 
 Getting started
 ------------
+This is an example project that uses play framework, scala, slick, mysql as a restful backend.
+
+The client is a javascript single page application (SPA) written in react. It uses react router for client site routing and ES6 javascript.
+
+The build process combines webpack and play activator which enables simple automatic browser refresh for server and client side code.
 
 1. Install [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
