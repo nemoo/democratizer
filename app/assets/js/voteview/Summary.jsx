@@ -1,7 +1,6 @@
 import React from "react";
 import mui from "material-ui";
 
-const ThemeManager = new mui.Styles.ThemeManager();
 const Card = mui.Card;
 const CardText = mui.CardText;
 const CardTitle = mui.CardTitle;
@@ -34,10 +33,8 @@ const Summary = React.createClass({
               </p>
               <p>
                 Ihr Vorschlag zu den Staatsausgaben: {userRevenue} Mio. Euro
-              </p>
-              <p>
-                <RaisedButton label="variante speichern" primary={true}  onClick={this.props.onSaveVote.bind(null)} />
-              </p>
+              </p>              
+              <RaisedButton label="variante speichern" primary={true}  onClick={this.props.onSaveVote} />              
             </CardText>
           </Card>
       );

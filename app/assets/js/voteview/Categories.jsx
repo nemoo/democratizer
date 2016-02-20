@@ -2,11 +2,10 @@ import React from "react";
 import mui from "material-ui";
 import Bar from "./Bar.jsx";
 
-const ThemeManager = new mui.Styles.ThemeManager(),
-    Card = mui.Card,
-    CardTitle = mui.CardTitle,
-    CardText = mui.CardText,
-    LinearProgress = mui.LinearProgress;
+const Card = mui.Card;
+const CardTitle = mui.CardTitle;
+const CardText = mui.CardText;
+const LinearProgress = mui.LinearProgress;
 
 const Categories = React.createClass({
     render() {

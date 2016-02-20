@@ -3,7 +3,6 @@ import React from "react";
 import mui from "material-ui";
 import Router from "react-router";
 
-const ThemeManager = new mui.Styles.ThemeManager();
 const Card = mui.Card;
 const CardTitle = mui.CardTitle;
 const CardText = mui.CardText;

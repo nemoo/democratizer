@@ -6,12 +6,12 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
 import React from "react";
+import ReactDOM from "react-dom";
 import mui from "material-ui";
 import Router from "react-router";
 import VoteView from "./voteview/Voteview.jsx";
 import OverView from "./overview/Overview.jsx";
 
-const ThemeManager = new mui.Styles.ThemeManager();
 const AppBar = mui.AppBar;
 const RouteHandler = Router.RouteHandler;
 const Route = Router.Route;
@@ -20,15 +20,6 @@ const DefaultRoute = Router.DefaultRoute;
 const Navigation = Router.Navigation;    
 
 const App = React.createClass({
-  mixins: [Navigation],
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
   render() {
       return (
           <div>  
@@ -55,7 +46,7 @@ var routes = (
 );
 
 Router.run(routes, function (Handler) {
-  React.render(<Handler/>, document.getElementById('app'));
+  ReactDOM.render(<Handler/>, document.getElementById('app'));
 });
 
 module.exports = App;
