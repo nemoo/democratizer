@@ -16,6 +16,8 @@ The build process combines webpack and play activator which enables simple autom
 
 2. Install [node.js](https://nodejs.org/)
 
+3. Install webpack: `npm install webpack -g`
+
 3. Install dependencies: `npm install`
 
 4. Run `webpack --watch` for automatic recompilation of the client app. 
