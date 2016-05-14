@@ -1,10 +1,9 @@
 import React from "react";
 import mui from "material-ui";
 
-const Card = mui.Card;
-const CardText = mui.CardText;
-const CardTitle = mui.CardTitle;
-const RaisedButton = mui.RaisedButton;
+import {Card, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 const Summary = React.createClass({
     render() {

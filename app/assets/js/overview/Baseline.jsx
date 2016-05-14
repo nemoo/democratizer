@@ -1,18 +1,12 @@
 
 import React from "react";
-import mui from "material-ui";
-import Router from "react-router";
-
-const Card = mui.Card;
-const CardTitle = mui.CardTitle;
-const CardText = mui.CardText;
-const RaisedButton = mui.RaisedButton;
-const Link = Router.Link;
-const Navigation = Router.Navigation;
+import {Router, Link, hashHistory} from "react-router";
+import {Card, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import { withRouter } from 'react-router'
 
 const Baseline = React.createClass({
-  mixins: [Navigation],  
-  render() {    
+  render() {
     return (
         <div><br/>
           <Card initiallyExpanded={false}>
@@ -20,10 +14,10 @@ const Baseline = React.createClass({
                 title={this.props.data.name}
                 showExpandableButton={true}>
                 <br/>
-              <RaisedButton 
-                label="Democratize now!" 
-                primary={true} 
-                onClick={()=>this.transitionTo("voteview",{baselineId: this.props.data.baselineId})}
+              <RaisedButton
+                label="Democratize now!"
+                primary={true}
+                onClick={()=>this.props.router.push(`/voteview/${this.props.data.baselineId}`)}
               />
             </CardTitle>
             <CardText expandable={true}>
@@ -32,7 +26,7 @@ const Baseline = React.createClass({
           </Card>
         </div>
     );
-  }  
-});  
+  }
+});
 
-module.exports = Baseline;
+module.exports = withRouter(Baseline);

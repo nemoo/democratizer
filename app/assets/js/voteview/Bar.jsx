@@ -1,11 +1,9 @@
 import React from "react";
 import mui from "material-ui";
 
-const Card = mui.Card;
-const CardTitle = mui.CardTitle;
-const CardText = mui.CardText;
-const LinearProgress = mui.LinearProgress;
-const FlatButton = mui.FlatButton;
+import {Card, CardTitle, CardText} from 'material-ui/Card';
+import LinearProgress from 'material-ui/LinearProgress';
+import FlatButton from 'material-ui/FlatButton';
 
 const Bar = React.createClass({
     render() {

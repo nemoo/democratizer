@@ -6,9 +6,9 @@ Improve nations of the world through educated discussion about how to distribute
 
 Getting started
 ------------
-This is an example project that uses play framework, scala, slick, mysql as a restful backend.
+This application features a javascript client written in reactjs. It uses react-router for client site routing, material-ui for material design greatness and ES6 javascript for coder delight.
 
-The client is a javascript single page application (SPA) written in react. It uses react router for client site routing and ES6 javascript.
+The server application uses scala, play framework, slick and mysql as a restful backend.
 
 The build process combines webpack and play activator which enables simple automatic browser refresh for server and client side code.
 
@@ -18,10 +18,10 @@ The build process combines webpack and play activator which enables simple autom
 
 3. Install webpack: `npm install webpack -g`
 
-3. Install dependencies: `npm install`
+4. Install dependencies: `npm install`
 
-4. Run `webpack --watch` for automatic recompilation of the client app. 
+5. Run `webpack --watch` for automatic recompilation of the client app.
 
-5. Run `activator ~run` for automatic recompilation of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
-    
+6. Run `activator ~run` for automatic recompilation of the server app. If you want to use the activator gui, run `activator ui` for Linux and Mac or activator.bat for Windows.
+
 Done: [http://localhost:9000/](http://localhost:9000/)
